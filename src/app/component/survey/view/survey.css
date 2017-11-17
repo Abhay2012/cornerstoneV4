@@ -1,0 +1,34 @@
+.style0{
+  background-color:#107895;
+}
+
+.style1{
+  background-color:#1286a8;
+}
+
+.style2{
+  background-color: #1395ba;
+}
+
+.style3{
+
+  background-color: #43abc8;
+}
+
+.style4{
+  background-color:#d0eaf0;
+  color: black;
+}
+
+.choice{
+  text-indent: 6%;
+}
+
+.heading{
+  width:100%;
+  background-color:#3d4154;
+  margin:auto 0;
+  padding:0.5px;
+  border-radius:5px;
+  color: white;
+}

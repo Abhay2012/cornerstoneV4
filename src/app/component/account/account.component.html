@@ -1,0 +1,190 @@
+<div class="profile">
+  <div class="row text-center">
+    <loader class="centerLoader" [condition]="loader"></loader>
+  </div>
+  <div class="row img-container">
+    <!-- <a data-toggle="modal" data-target="#myModal" style="display:inline-block;" >  -->
+      <!-- <span> -->
+        <img src="{{lg.getData('picUrl')}}" class= "profile-picture">
+        <a data-target="#myModal" data-toggle="modal"><i class="glyphicon glyphicon-pencil edit-img"></i></a>
+        <div class=" row name">{{name}}</div>
+      <!-- </span></a> -->
+  </div>
+
+  <div class="row profile-row">
+    <div for="id" class="col-sm-4"><img src="/assets/icons/fingerprint.png"class="fingerprint"></div>
+    <div class="id col-sm-8" name="id">
+      <label>Id</label>
+      <div class="info">{{id}}</div>
+    </div>
+  </div>
+  <div class="row profile-row">
+    <div for="id" class="col-sm-4"><i class=" glyphicon glyphicon-lock lock"></i></div>
+    <div class="id col-sm-8" name="id">
+      <label>Password</label>
+      <div class="info">********
+      <a data-target="#editPassword" data-toggle="modal"><i class="glyphicon glyphicon-pencil edit"></i></a>
+      </div>
+    </div>
+  
+  </div>
+  <div class="row profile-row">
+    <div for="role" class="col-sm-4"><img src="/assets/icons/role.png" class="role"></div>
+    <div class="id col-sm-8" name="id">
+      <label>Role</label>
+      <div class="info">{{role}}</div>
+    </div>
+  </div>
+  <div class="row profile-row">
+    <div for="email" class="col-sm-4"><i class="email">@</i></div>
+    <div class="id col-sm-8" name="id">
+      <label>Email</label>
+      <div class="info">{{email}}</div>
+    </div>
+  </div>
+  <hr class="style-line">
+  <div class="row">
+      <div class="col-sm-4">
+        <div class="row">
+        <button type="button" class="btn btn-success btn-circle" [routerLink]="['/circular/add-circular']">
+          <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+        </button>
+        </div>
+        <div class="row">Add Circular</div>
+      </div>
+      <div class="col-sm-4">
+        <div class="row">
+        <button type="button" class="btn btn-success btn-circle" [routerLink]="['/homework/homework-add']">
+          <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+        </button>
+        </div>
+        <div class="row">Add Homework</div>
+      </div>
+      <div class="col-sm-4">
+        <div class="row">
+        <button type="button" class="btn btn-success btn-circle" [routerLink]="['/appreciation/add-appreciation']">
+          <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+        </button>
+        </div>
+        <div class="row">Add Appreciation</div>
+      </div>
+</div>
+<!-- </div> -->
+<br>
+<div class="modal fade" id="myModal" role="dialog">
+  <div class="modal-dialog">
+    <!-- Update Modal content-->
+   <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Update Profile Picture </h4>
+      </div>
+      <form [formGroup]="uploadPicForm">
+        <div class="modal-body">
+          <div class="row text-center">
+            <loader [condition]="loader"></loader>
+          </div>
+          <div class="form-group">
+        <input type="file" class="form-control-file" accept="image/*" formControlName="imgFile" id="exampleInputFile" aria-describedby="fileHelp" (change)="getFile($event)">
+      </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" (click)="submitAccountDetails()" class="btn btn-primary" data-dismiss= 'modal'>Submit</button>
+            <button class="btn btn-primary" data-toggle="modal" data-target="#confirmModal" data-dismiss="modal">Reset image</button>
+        </div>
+      </form>
+
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="editPassword" role="dialog">
+  <div class="modal-dialog">
+    <!-- Update Modal content-->
+   <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Change password </h4>
+      </div>
+      <form class="form" [formGroup]='resetform'class="editpassForm">
+			<div class="form-group">
+				<label for="oldPassword">Old Password</label>
+				<input type="password" (click)="onclick()" name='oldPassword' id='oldPassword' formControlName='oldPassword' class=" form-control" placeholder="Enter your old password here"/>
+        <div [hidden]="resetform.controls.oldPassword.valid || resetform.controls.oldPassword.untouched || resetform.controls.oldPassword.pristine" class="alert alert-warning">This field is required</div>      
+      </div>
+			<div class="form-group">
+				<label for="newPassword">New Password</label>
+        <input type="password" name='newPassword' (click)="onclick()"  id='newPassword' formControlName='newPassword' class=" form-control" placeholder="Enter your new password here"/>
+        <div [hidden]="resetform.controls.newPassword.valid || resetform.controls.newPassword.untouched || resetform.controls.newPassword.pristine" class="alert alert-warning">This field is required
+          <div style="color:red"> minimum length of password is 4</div></div>      
+      </div>
+			<div class="form-group">
+				<label for="confirmPassword">Confirm password</label>
+        <input type="password" name='confirmPassword' (click)="onclick()" id='confirmPassword' formControlName='confirmPassword' class="form-control " placeholder="Confirm your password"/>
+        <div [hidden]="resetform.controls.confirmPassword.valid || resetform.controls.confirmPassword.untouched" class="alert alert-warning">This field is required</div>          
+      </div>
+    </form>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="onSubmit()" [disabled]="resetform.invalid">Submit</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
+    </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="errorModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="exampleModalLabel">File Type Error</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Kindly upload an image file.
+      </div>
+      <div class="modal-footer">
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="exampleModalLabel">Confirmation</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Are you sure ?
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-primary" data-dismiss="modal" (click)="resetImage()">Yes</button>
+        <button class="btn btn-primary" data-dismiss="modal">No</button>        
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="mismatch" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="exampleModalLabel">wrong Password</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+       You have entered the old password
+      </div>
+      <div class="modal-footer">
+      </div>
+    </div>
+  </div>
+</div>

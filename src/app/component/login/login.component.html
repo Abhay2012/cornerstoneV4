@@ -1,0 +1,36 @@
+<div class="login-wrapper">
+	<div class="container">
+		<!--<img class="main-logo" src="http://cornerstone.pk/wp-content/uploads/2016/07/css.png"> -->
+		<img class="main-logo" src="/assets/logo.png">
+		<h2 class="head-name">Cornerstone School</h2>
+			<div *ngIf="loader && !error && loaderOn()">
+				<span class="fa fa-spinner fa-spin" style="font-size:70px;position:absolute;top:50%;color:white"></span>
+			</div>		
+		<form class="form" [formGroup]="loginForm" (submit)="onSubmit()">
+			<input type="text" name='username' id='username' formControlName="username" class="user" placeholder="username"/>
+			<input type='password' name='password' id='password' formControlName="password" class="pass" placeholder="password"/>
+			<input type="submit" class="btn" value="Sign in" [disabled]="loginForm.invalid"/>
+			<a routerLink="/login/forgot-password">Forgot Password</a>
+			<div class="loader" *ngIf="loginStart"></div>
+			<div *ngIf="error">
+				<p style="color:white">Username or password invalid.</p>
+			</div>
+		</form>
+	</div>
+	
+	<ul class="bg-bubbles">
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+	</ul>
+</div>
+<div class="footer">
+	Powered by NxtLifeTechnologies
+</div>

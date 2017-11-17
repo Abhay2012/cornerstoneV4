@@ -1,0 +1,10 @@
+<div class="student">
+
+  <ul class="nav nav-tabs">
+    <li routerLinkActive="active"><a [routerLink]="['/add-student/new-student']" >New Student</a></li>
+    <li routerLinkActive="active"><a [routerLink]="['/add-student/existing-student']" >Existing Student</a></li>
+  </ul>
+  <div class="tab-content">
+    <router-outlet></router-outlet>
+  </div>
+</div>

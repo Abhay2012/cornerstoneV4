@@ -1,0 +1,18 @@
+<div class="appreciation" >
+<!-- <h1>Appreciation
+        <button type="button" class="btn btn-success btn-circle pull-right" [routerLink]="['/add-appreciation']">
+          <i class="glyphicon glyphicon-plus" aria-hidden="true"></i>
+        </button>
+</h1> -->
+      <!--<div class="add-button">
+
+      </div>-->
+<ul class="nav nav-tabs">
+  <li routerLinkActive="active"><a [routerLink]="['/appreciation/for-me']">For Us</a></li>
+  <li routerLinkActive="active"><a [routerLink]="['/appreciation/for-student']">By Us</a></li>
+</ul>
+
+  <div class="tab-content">
+    <router-outlet></router-outlet>
+  </div>
+</div>

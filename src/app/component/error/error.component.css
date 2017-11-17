@@ -1,0 +1,37 @@
+.error{
+height: 100vh;
+background: white;
+overflow: hidden;
+}
+.oops img{
+  height: 50vh;
+  margin: auto;
+  display: block;
+}
+.msg-container{
+    text-align: center;
+    font-weight: 700;
+    font-size: 200%;
+}  
+
+.msg{
+  text-align: center;
+  font-weight: 500;
+  font-size: 150%;
+}
+.reload{
+  margin-top: 20px;
+  width: 100%;
+  /* border: 1px solid black; */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.reload button{
+  width: 100px;
+}
+.btn-danger {
+    color: #f3f1e8;
+    background-color: #464646;
+    border-color: #060606;
+}

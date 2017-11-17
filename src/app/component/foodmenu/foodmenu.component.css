@@ -1,0 +1,25 @@
+.glyphicon-calendar:before,.glyphicon-globe:before,.glyphicon-list:before{
+    font-size: 20px !important;
+}
+
+.food-pic{
+    left:5px;
+    width: 93px;
+    height: 93px;
+    margin: auto;
+    border-radius: 100%;
+
+}
+
+.snack, .lunch{
+	margin: 0 auto;
+	height:145px;
+	width : 375px;
+	border : 1px solid black;
+	border-radius:5px;
+	overflow: auto;
+}
+
+.food-list{
+
+}

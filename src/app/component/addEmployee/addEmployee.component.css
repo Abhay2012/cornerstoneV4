@@ -1,0 +1,79 @@
+.picture :hover{
+opacity: 0.5 ;
+}
+
+.color-change{
+  background-color: red;
+}
+.text-muted{
+  color: red;
+}
+/*#employee-modal{
+  margin-left: 5%;
+}
+.employee-image{
+  display: block;
+  margin: auto;
+  border-radius: 50% !important;
+}
+
+.name{
+  padding: 5%;
+  display: inline-block;
+}*/
+i{
+  float: left;
+}
+
+.required{
+  color:red;
+}
+
+.modal-body{
+  padding: 0px;
+}
+
+.modal-body{
+  text-align: center;
+  padding: 0 15px;
+}
+.modal-nickName{
+    background-color: #3a3838;
+    color: white;
+}
+.heading{
+  font-size: 12px;
+  color: #ea212e;
+  font-weight: normal;
+}
+
+.value{
+  font-size: 15px;
+  font-weight: normal;
+}
+
+i{
+  float: right;
+  font-size: 40px;
+  padding-top: 10px;
+    
+}
+.contact,.userName,.email{
+  float: left;
+}
+
+hr{
+  margin:10px;
+}
+.modal-nickName{
+  margin-bottom: 10px;
+}
+.glyphicon-edit{
+      padding-right: 40%;
+    font-size: 20px;
+}
+
+.modal-image:hover{
+  opacity: 0.4;
+  filter: alpha(opacity=50);
+}

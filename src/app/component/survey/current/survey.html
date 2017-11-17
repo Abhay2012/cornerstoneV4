@@ -1,0 +1,41 @@
+<div class="panel panel-default">
+  <div class="panel-body">
+   
+    <div class="add-button">
+      <button type="button" class="btn btn-success btn-circle pull-right" [routerLink]="['/add-survey']">
+    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+  </button>
+    </div>
+    <br>
+     <div class="row text-center">
+      <loader [condition]="loader"></loader>
+    </div>
+
+    <div style="margin-top: 2%;padding-top: 1%;">
+      <div  *ngIf="!emptySurveys">
+        <div class="container card" *ngFor="let s of surveys; let i = index;">
+          <div class="row">
+
+            <p routerLinkActive="active"><a [routerLink]="['/view-survey', s.surveyId]"><span class="glyphicon glyphicon-resize-full expand"></span></a></p>
+          </div>
+
+          <div class="row class" style="text-align:center;">{{s.typeName}}</div>
+          <div class="row"><span class="badge">{{s.questionLength}} Question(s)</span></div>
+          <hr class="style-line">
+          <div class="row title" style="text-align:center;"><b>{{s.title}}</b></div>
+
+          <div class="row desc" style="text-align:center;"><span class="white-space">{{s.description}}</span></div>
+
+          <hr class="style-line">
+          <div class="row name" style="text-align:center;"><span class="glyphicon glyphicon-calendar"></span>{{s.expiredAt | date}}</div>
+        </div>
+      </div>
+    </div>
+    <div style="text-align: center" *ngIf="(emptySurveys)&&(!loader)&&(currentPage==1)"><b>No Survey is added to the View</b></div>
+    <div style="text-align: center" *ngIf="(emptySurveys)&&(!loader)&&(currentPage!=1)"><b>No More Survey is added to the View</b></div>    
+  </div>
+  <div class="panel-footer">
+    <!-- <button (click)="previousSurvey()" [disabled]="currentPage === 1" type="button" class="btn btn-primary">Previous</button> -->
+    <button (click)="nextSurvey()" type="button" [disabled]="emptySurveys || noMore" class="btn btn-primary">Load More</button>
+  </div>
+</div>

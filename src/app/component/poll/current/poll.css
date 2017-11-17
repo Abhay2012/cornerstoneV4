@@ -1,0 +1,17 @@
+.fa{
+    font-size: 20px;
+    color: #337ab7;
+}
+
+.pole-info-list{
+    padding-top: 8%;
+    text-align: justify;
+    /* background-color: aliceblue; */
+}
+/* 
+.pole-info{
+    background: aliceblue;
+} */
+.fa-calendar{
+    margin-top: 10px;
+}

@@ -1,0 +1,78 @@
+<div class="panel panel-default">
+  <!-- Default panel contents -->
+  <div class="panel-heading">Create New Suggestion
+  <button type="button" class="close pull-right" aria-label="Close" (click)="_location.back();">
+    <span aria-hidden="true">&times; </span>
+  </button>
+  </div>
+    <div class="panel-body">
+      <div class="row text-center">
+        <loader class="centerLoader" [condition]="submitProgress"></loader>
+      </div>
+      <form name="suggestion" [formGroup]="suggestion" (ngSubmit)="submitSuggestion()" novalidate>
+        
+        <div class="form-group">
+          <label for="standardId">Select Standard</label>
+
+        <select class="form-control" id="standardId" name="standardId"(ngModelChange)="getStudents($event)" [(ngModel)]="standardId"
+          [ngModelOptions]="{standalone: true}" >
+           <option disabled="disabled" selected="selected">Select standard</option>             
+           <option *ngIf="emptyStandards" disabled>Standards are not added. Try again later. </option>
+          <option *ngFor="let a of standards" [ngValue]="a.id"> {{a.name}}</option>
+        </select>
+        <loader class="dropdownLoader" [condition]="standardLoader"></loader>        
+           <!-- <div [hidden]="suggestion.controls.standardId.valid || suggestion.controls.standardId.untouched" class="alert alert-warning">This field is required</div>   -->
+        </div>
+
+      
+
+         <div class="form-group" *ngIf="standardId">       
+          <label for="studentId">Student Name</label>
+         <select class="form-control" formControlName="studentId" >
+            <option disabled="disabled" selected="selected">Select Student</option>             
+             <option *ngIf="emptyStudents" disabled>Students are not added. Try again later. </option>
+            <option *ngFor="let s of students" [ngValue]="s.id">{{s.name}}</option>
+          </select>
+        <loader class="dropdownLoader" [condition]="studentLoader"></loader>                  
+         <div [hidden]="suggestion.controls.studentId.valid || suggestion.controls.studentId.untouched" class="alert alert-warning">This field is required</div>   
+        
+        </div>
+
+        <div class="form-group">
+      <label for="title">Title</label>
+          <span class="badge">{{50 - suggestion.value.title.length}}</span>
+              <textarea class="form-control" name="title" formControlName="title" maxlength="50" rows="1"></textarea>
+                    <div [hidden]="suggestion.controls.title.untouched  ||suggestion.controls.title.valid ||suggestion.controls.title.pristine" class="alert alert-warning">This field is required</div>
+    </div>
+        <!-- <div class="form-group" *ngIf="suggestion.value.standardId"> -->
+
+        <div class="form-group">
+          <label for="description">Description</label>          
+          <span class="badge">{{2500 - suggestion.value.description.length}}</span>
+          <textarea class="form-control" name="description" formControlName="description" maxlength="2500"></textarea>
+          <div [hidden]="suggestion.controls.description.untouched  ||suggestion.controls.description.valid ||suggestion.controls.description.pristine" class="alert alert-warning">This field is required</div>
+        </div>
+        <button type="submit" class="btn btn-success" [disabled]="suggestion.invalid" data-toggle="modal" data-target="#suggestionModal">Submit</button>
+      </form>
+    </div>
+</div>
+
+    <div class="modal fade" id="suggestionModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title" id="exampleModalLabel">Suggestion Added</h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+          </div>
+          <div class="modal-body">
+            You have successfully added a new suggestion
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal" [routerLink]="['/suggestion/for-student']">Close</button>
+            <button type="button" class="btn btn-primary" data-dismiss="modal">Add More</button>
+          </div>
+        </div>
+      </div>
+    </div>

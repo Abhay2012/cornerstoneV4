@@ -1,0 +1,177 @@
+<!-- <h1>Circulars
+  <button type="button" class="btn btn-success btn-circle" [routerLink]="['/add-circular']">
+  <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+</button>
+</h1> -->
+<div class="panel panel-default">
+  <!-- Default panel contents -->
+  <div class="panel-heading">
+  Circulars 
+    <div style="display: inline-block;" class="add-button">
+      <button type="button" class="btn btn-success btn-circle" [routerLink]="['/circular/add-circular']">
+        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Table -->
+  <div class="panel-body">
+     
+    <div class="row text-center">
+       <loader [condition]="loader"></loader>
+     </div> 
+  <div  style="margin-top: 2%;padding-top: 1%;">
+    <div *ngIf="!EmptyCirculars">
+      <div class="container card" *ngFor="let circular of circulars">
+        <div class="row">
+          <span class="glyphicon glyphicon-resize-full expand" (click)="seletToExpand(circular)" data-toggle="modal" data-target="#myModal-card"></span>
+        </div>
+        <!--<div class="row">
+          <div class="col-sm-6" *ngIf="!complaintStatus">
+            <span [style.background]="c.statusColor" class="badge">{{c.statusName}}</span>
+          </div>
+          <div class="col-sm-6">{{c.priorityName}}</div>
+        </div>-->
+        <div class="row">
+          <!-- <img class="image" [attr.src]="fileUrl + circular.employeePicUrl"> -->
+              <div class="download-image" *ngIf="circular.files">
+                <span  *ngIf="circular.files.length > 0">
+                <img class="modal-image" *ngIf="circular.files[0].fileOriginalName.substr(circular.files[0].fileOriginalName.length - 4) != '.pdf'" [attr.src]="fileUrl + circular.files[0].fileTimestamp">
+                <img class="image" *ngIf="circular.files[0].fileOriginalName.substr(circular.files[0].fileOriginalName.length - 4) == '.pdf'" src="./app/img/pdf.png">
+                </span>
+                    <div class="edit-image"><a [attr.href]="fileUrl + circular.files[0].fileTimestamp" [download]="custom"><i class="fa fa-download fa-lg"></i></a></div>
+              </div>
+              <span>
+                <img class="modal-image" *ngIf="!circular.files" src="./app/img/preview.png" alt="No Preview Avalable">
+              </span>.
+        </div>
+        <div class="row name">{{circular.employeeName}}</div>
+        <div class="row class"><label class="heading">For</label>
+          <div class="class">{{circular.standards}}</div>
+          <span *ngIf="!circular.standards">School</span>
+        </div>
+        <hr class="style-line">
+        <div class="row title">{{circular.title}}</div>
+        <div class="row description">{{circular.description}}</div>
+        <!--<div class="row">
+          <div class="col-sm-6 edit" *ngIf="!(complaintStatus == 4 || complaintStatus == 5)">
+            <a [ngClass]="{'disabled-click' : c.statusId == 4}" (click)="selectComplaint(c,in)" data-toggle="modal" data-target="#myModal"
+                class="action"><i class="glyphicon glyphicon-pencil"></i>
+            </a>
+          </div>
+          <div class="col-sm-6 comment">
+            <a onclick="$('.panel.panel-chat').show();" (click)="getComplaintCommentById(c)" class="action"><i class="glyphicon glyphicon-comment"></i>
+            </a>
+          </div>
+        </div>-->
+      </div>
+    </div>
+  </div>
+    <!--end cards-->
+    <div class="row"style="text-align: center" *ngIf="(EmptyCirculars)&&(!loader)&&(currentPage==1)" ><b>No Circulars are added to the view.</b></div>
+    <div class="row "style="text-align: center" *ngIf="(EmptyCirculars)&&(!loader)&&(currentPage!=1)" ><b>No more Circulars are added to the view.</b></div>
+
+  </div>
+
+
+  <div class="panel-footer">
+    <!--<nav aria-label="Page navigation example">
+      <ul class="pagination">
+        <li class="page-item" [ngClass]="{'disabled': currentPage === 1}"><a class="page-link" (click)="previousCircular()">Previous</a></li>
+        <li class="page-item"><a class="page-link active">1</a></li>
+        <li class="page-item"><a class="page-link" href="#">2</a></li>
+        <li class="page-item"><a class="page-link" href="#">3</a></li>
+        <li class="page-item" [ngClass]="{'disabled': EmptyCirculars}"><a class="page-link" (click)="nextCircular()">Next</a></li>
+      </ul>
+    </nav>-->
+    <!--<button (click)="previousCircular()" class="btn btn-primary nav-btn right" [disabled]="currentPage === 1">Previous</button>
+    <button (click)="nextCircular()" class="btn right btn-danger nav-btn" [disabled]="EmptyCirculars || noMore">Next</button>-->
+    <div class="text-center"><button (click)="nextCircular()" class="btn btn-primary" [disabled]="EmptyCirculars || noMore">Load More</button></div>
+  </div>
+</div>
+
+<div class="modal fade" id="myModal-card" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content" *ngIf="selectedCircular">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="gridSystemModalLabel">{{selectedCircular.title}}</h4>
+      </div>
+      <div class="modal-body card-modal">
+        <div class="row modal-heading">
+          <!-- <img class="modal-image" [attr.src]="fileUrl + selectedCircular.employeePicUrl" style="margin-top:10px;"> -->
+          <div class="download-image-modal1">  
+          <span *ngIf="selectedCircular.files && selectedCircular.files[imgindex-1]">
+            
+            <img  *ngIf="selectedCircular.files[imgindex-1].fileOriginalName.substr(selectedCircular.files[imgindex-1].fileOriginalName.length - 4) != '.pdf'" style="float:left;margin-right: 12px" (click)="swipe(-1)" class="sideimage" [attr.src]="fileUrl + selectedCircular.files[imgindex-1].fileTimestamp">
+
+            <img  *ngIf="selectedCircular.files[imgindex-1].fileOriginalName.substr(selectedCircular.files[imgindex-1].fileOriginalName.length - 4) == '.pdf'" style="float:left;margin-right: 12px" (click)="swipe(-1)" class="sideimage" src="./app/img/pdf1.jpg">
+          
+          </span>  
+          
+            <span *ngIf="imgindex==0"  style="float:left;top:83px;width:149px;height:16px;margin-right:12px"></span>
+
+            <div class="download-image-modal" *ngIf="selectedCircular.files" style="float:left">
+              <span>
+               <img *ngIf="selectedCircular.files[imgindex].fileOriginalName.substr(selectedCircular.files[imgindex].fileOriginalName.length - 4) != '.pdf'" class="image1" [attr.src]="fileUrl + selectedCircular.files[imgindex].fileTimestamp">
+
+               <img *ngIf="selectedCircular.files[imgindex].fileOriginalName.substr(selectedCircular.files[imgindex].fileOriginalName.length - 4) == '.pdf'" class="image1" src="./app/img/pdf1.jpg">
+
+              </span>
+              		<div class="edit-image-modal"><a [attr.href]="fileUrl + selectedCircular.files[0].fileTimestamp" [download]="custom"><i class="fa fa-download fa-lg"></i></a></div>
+            </div>
+
+            <span *ngIf=" selectedCircular.files && imgindex == selectedCircular.files.length-1 "  style="float:left;top:83px;width:149px;height:16px;margin-right:12px" ></span>
+            
+            <span *ngIf="selectedCircular.files && selectedCircular.files[imgindex+1]">
+          
+            <img *ngIf="selectedCircular.files[imgindex+1].fileOriginalName.substr(selectedCircular.files[imgindex+1].fileOriginalName.length - 4) != '.pdf'" style="float:left;margin-left:12px;" (click)="swipe(1)" class="sideimage" [attr.src]="fileUrl + selectedCircular.files[imgindex+1].fileTimestamp">
+
+            <img *ngIf="selectedCircular.files[imgindex+1].fileOriginalName.substr(selectedCircular.files[imgindex+1].fileOriginalName.length - 4) == '.pdf'" style="float:left;margin-left:12px;" (click)="swipe(1)" class="sideimage" src="./app/img/pdf1.jpg">
+
+            </span>
+          
+          </div>  
+
+            <span>
+              <img class="image1" *ngIf="!selectedCircular.files" src="./app/img/preview.png" alt="No Preview Avalable">
+            </span>
+
+
+                        <br *ngIf="selectedCircular.files">
+            <div style="margin:auto;">
+            <div style="display: inline;" *ngFor=" let x of selectedCircular.files ; let i=index ">
+              <span *ngIf="i!=imgindex" (click)="swipebydots(i)" class="glyphicon glyphicon-one-fine-empty-dot"></span>
+              <span *ngIf="i==imgindex" (click)="swipebydots(i)" class="glyphicon glyphicon-one-fine-full-dot"></span>
+            </div>
+
+            </div>
+            <br>
+        </div>
+        <div class="row modal-name">{{selectedCircular.employeeName}}
+          <div class="modal-class" *ngIf="selectedCircular.standards"><label>For : </label><span>{{selectedCircular.standards}}</span><span *ngIf="!selectedCircular.standards"></span></div>
+        </div>
+        <div class="row modal-description">
+          <span class="white-space">{{selectedCircular.description}}</span>
+        </div>
+        <hr class="style-line">
+        <div class="row">
+          <div class="col-sm-2 col-xs-2"><i class="glyphicon glyphicon-calendar calendar-custom pull-right"></i></div>
+          <div class="col-sm-5 col-xs-5">
+            <label class="heading">Created At</label>
+            <div class="result">{{selectedCircular.createdAt | date}}</div>
+          </div>
+          <div class="col-sm-5 col-xs-5"><label class="heading">Start date</label>
+            <div class="result">{{selectedCircular.start | date}}</div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->

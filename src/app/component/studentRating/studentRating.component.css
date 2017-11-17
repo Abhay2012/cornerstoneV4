@@ -1,0 +1,92 @@
+.studentList 
+{
+    /* width: 95%; */
+    max-height: 200px;
+    overflow:hidden;
+    overflow-y:scroll;
+ }
+
+.custom{
+  height: 55px;
+}
+
+/*.foc :after, .foc:focus{
+  content: "abc";
+}*/
+
+.rating {
+    float:left;
+}
+
+.rating:not(:checked) > input {
+    position:absolute;
+    /*top:-9999px;*/
+    clip:rect(0,0,0,0);
+}
+
+.rating:not(:checked) > label {
+    float:right;
+    width:1em;
+    padding:0 .1em;
+    overflow:hidden;
+    white-space:nowrap;
+    cursor:pointer;
+    font-size:200%;
+    line-height:1.2;
+    color:#ddd;
+    /*text-shadow:1px 1px #bbb, 2px 2px #666, .1em .1em .2em rgba(0,0,0,.5);*/
+}
+
+.rating:not(:checked) > label:before {
+    content: '★ ';
+}
+
+.rating > input:checked ~ label {
+    color: #f70;
+    text-shadow:1px 1px #c60, 1px 1px #940, .1em .1em .2em lightgrey;
+}
+
+.rating:not(:checked) > label:hover,
+.rating:not(:checked) > label:hover ~ label {
+    color: gold;
+    /*text-shadow:1px 1px goldenrod, 2px 2px #B57340, .1em .1em .2em rgba(0,0,0,.5);*/
+}
+
+.rating > input:checked + label:hover,
+.rating > input:checked + label:hover ~ label,
+.rating > input:checked ~ label:hover,
+.rating > input:checked ~ label:hover ~ label,
+.rating > label:hover ~ input:checked ~ label {
+    color: #ea0;
+    /*text-shadow:1px 1px goldenrod, 2px 2px #B57340, .1em .1em .2em rgba(0,0,0,.5);*/
+}
+
+.rating > label:active {
+    position:relative;
+    top:2px;
+    left:2px;
+}
+.custom-panel-heading{
+    background: #3d4154 !important;
+}
+@media screen and (max-width: 450px){
+.rating:not(:checked) > label{
+     font-size: 20px; 
+}
+.table>tbody>tr>td{
+    display: inline-flex;
+}
+} 
+.table-cell{
+    padding: 8px 8px 0px 8px;
+}
+th{
+    padding-bottom: 15px;
+}
+
+.list-btn{
+    float: right;
+    margin-top: -30px;
+    border: none;
+    background: none;
+}

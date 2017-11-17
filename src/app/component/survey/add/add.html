@@ -1,0 +1,208 @@
+<div class="panel panel-default">
+
+  <div class="panel-heading">Add Survey
+    <button type="button" class="close pull-right" aria-label="Close" (click)="_location.back();">
+    <span aria-hidden="true">&times; </span>
+  </button>
+  </div>
+
+  <div class="row text-center">
+    <loader [condition]="loader"></loader>
+  </div>
+
+  <div *ngIf="((!surveyInfo)&&(!loader))">
+    Surveys cannot be added at the moment. Try again later.
+  </div>
+
+  <form [formGroup]="surveyForm" (submit)="submitSurvey()" *ngIf="surveyInfo">
+    <div class="panel-body">
+
+      <div class="form-group">
+        <label for="title">Title</label>
+        <span class="badge"> {{50 - surveyForm.value.title.length}}</span>
+        <input type="text" class="form-control" formControlName="title" id="title" placeholder="Enter title..." maxlength="50">
+      </div>
+
+      <div [hidden]="((surveyForm.controls.title.untouched) || (surveyForm.controls.title.pristine) || (surveyForm.controls.title.valid))"
+        class="alert alert-warning">
+        This field is required.
+      </div>
+
+      <div class="form-group">
+        <label for="description">Description</label>
+        <span class="badge"> {{200 - surveyForm.value.description.length}}</span>
+        <textarea class="form-control" rows="3" formControlName="description" id="comment" placeholder="Enter Description..." maxlength="200"></textarea>
+      </div>
+
+      <div [hidden]="((surveyForm.controls.description.untouched) || (surveyForm.controls.description.pristine) || (surveyForm.controls.description.valid))"
+        class="alert alert-warning">
+        This field is required.
+      </div>
+
+      <div class="form-group">
+        <label for="surveyFor">Audience</label>
+        <select class="form-control" id="surveyFor" formControlName="surveyTypeId" (ngModelChange)="onTypeId($event)">
+          <option disabled="disabled" selected="selected">Select Audience</option>             
+          <option *ngFor="let a of surveyInfo.surveyType" [value]="a.id">{{a.name}}</option>
+    </select>
+      </div>
+
+      <div *ngIf="standards">
+      <div class="form-group" *ngIf="surveyForm.value.surveyTypeId == 2">
+        <label for="standards">Standards</label>
+        <div class="row text-center">
+                  <loader [condition]="submitProgress" class="centerLoader"></loader>
+        </div>
+            <button type="button" class="form-control" *ngIf="standards != null" (click)="dropdown ? dropdown = false : dropdown = true;"></button>
+            <button type="button" class="form-control" *ngIf="standards == null">No Standards are added to the View. Try again later.</button>
+            <!-- <span *ngIf="standards != null" class="glyphicon glyphicon-triangle-bottom" style="margin-left: -4%;
+              font-size: 11px;
+              padding: 0;
+              vertical-align: super;"></span> -->
+
+            <ul class="list" id="standardIds" *ngIf="dropdown">
+              <li style="    margin-left: -34px;     /* text-indent: -18px; */ " *ngFor="let a of standards">
+                <label>
+                  <input type="checkbox" class="checkbox" [ngModel]="a.checked" (ngModelChange)="selectStandards(a,$event)" [ngModelOptions]="{standalone: true}" [value]="a.id">
+                  {{a.name}}
+                </label>
+              </li>
+            </ul>
+            <loader [condition]="standardLoader" class="dropdownLoader"></loader>            
+<!--         <select class="form-control" id="standardIds" [(ngModel)]="selectedStandard" [ngModelOptions]="{standalone: true}" (ngModelChange)="onStandards($event)"
+          multiple required>
+          <option *ngIf="!standards" [value]="null" selected>No standards are added </option>
+      <option *ngFor="let s of standards" [value]="s.id">{{s.name}}</option>
+    </select> -->
+      </div>
+      </div>
+
+      <div class="form-group">
+        <label for="date">Date</label>
+        <div>
+          <input class="form-control" type="date" (change)="onDueDate($event)" formControlName="expiredAt" value="2017-08-19" id="date">
+        </div>
+      </div>
+
+      <u>
+        <h4>Questions</h4>
+      </u>
+
+      <div formArrayName="surveyQuestions">
+        <div class="row" *ngFor="let q of surveyForm.controls.surveyQuestions.controls; let i=index;" [formGroupName]="i" style="background: rgba(232, 238, 238, 0.59); margin: 10px 1px; padding: 7px 5px;">
+
+          <div class="form-group col-sm-4 col-xs-6">
+            <label for="text" class="question">Question {{i+1}}</label>
+            <input type="text" class="form-control" placeholder="Enter Question {{i+1}}" id="text" formControlName="text">
+          </div>
+
+          <div class="form-group col-sm-4 col-xs-6">
+            <label for="surveyType" class="question">Question Type</label>
+            <select class="form-control" id="surveyType" formControlName="type">
+              <!--(ngModelChange)="onQuestionType($event,surveyForm.controls.surveyQuestions.controls[i])"-->
+              <option disabled="disabled" selected="selected">Select Question Type</option>               
+              <option *ngFor="let a of surveyInfo.surveyQuestionType" [value]="a.id"> {{a.name}}</option>
+            </select>
+          </div>
+
+          <div class="form-group col-sm-2 col-xs-6" style="    margin-top: 23px;">
+            <button type="button" class="btn btn-primary" title="Add Options" [disabled]="(surveyForm.controls.surveyQuestions.controls[i].controls.choices.length==surveyInfo.optionLimit)"
+              (click)="addOptions(surveyForm,i)">Add Options</button>
+          </div>
+
+          <div class="form-group col-sm-2 col-xs-6" style=" margin-top: 23px;">
+            <button type="button" class="btn btn-primary active" title="Delete Question" (click)="removeQuestions(surveyForm,i)" [disabled]="surveyForm.controls.surveyQuestions.length<=1">
+              <span class="glyphicon glyphicon-trash" ></span>
+             </button>
+          </div>
+
+          <div class="col-xs-10" formArrayName="choices">
+            <div class="row" *ngFor="let ch of surveyForm.controls.surveyQuestions.controls[i].controls.choices.controls; let ii = index"
+              [formGroupName]="ii">
+
+              <div class="form-group col-xs-8">
+                <label for="ch">Choice {{ii+1}}:</label>
+                <input type="text" class="form-control" formControlName="choice" placeholder="Enter Choice {{ii+1}}" id="ch">
+              </div>
+
+              <div class="col-xs-2" style="margin-top:23px;">
+                <button type="button" class="btn btn-primary active" title="Delete Options" (click)="removeOptions(surveyForm,i,ii)" [disabled]="surveyForm.controls.surveyQuestions.controls[i].controls.choices.length<=2">
+                    <span class="glyphicon glyphicon-remove"></span>
+                </button>
+              </div>
+            </div>
+
+            <div *ngIf="surveyInfo">
+              <div class="alert alert-warning col-xs-10" *ngIf="surveyForm.controls.surveyQuestions.controls[i].controls.choices.length==surveyInfo.optionLimit">
+                Maximum {{surveyInfo.optionLimit}} options are allowed.
+              </div>
+            </div>
+
+            <div class="alert alert-warning col-xs-10" *ngIf="surveyForm.controls.surveyQuestions.controls[i].controls.choices.length<2">
+              Minimum 2 options are required.
+            </div>
+          </div>
+          <!--
+          <div class="alert alert-warning col-xs-10" *ngIf="surveyForm.value.surveyQuestions[i].type==3">
+            No options for text-type questions.
+          </div>-->
+
+        </div>
+
+        <div class="row" *ngIf="surveyInfo" style="margin: 10px 1px; padding: 5px;">
+          <span class="alert alert-warning col-xs-10" *ngIf="surveyForm.controls.surveyQuestions.length==surveyInfo.questionLimit">
+                Maximum {{surveyInfo.questionLimit}} questions are allowed.
+              </span>
+          <span class="alert alert-warning col-xs-100" *ngIf="surveyForm.controls.surveyQuestions.length<1">
+                Minimum 1 question is required.
+              </span>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="panel-footer">
+      <button type="submit" class="btn btn-success" [disabled]="surveyForm.invalid">Submit</button>
+      <button type="button" class="btn btn-primary" [disabled]="surveyForm.controls.surveyQuestions.length==surveyInfo.questionLimit"
+        (click)="addQuestions(surveyForm)">Add Questions</button>
+    </div>
+  </form>
+</div>
+
+<div class="modal fade" id="dateErrorModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="exampleModalLabel">Invalid Date</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Choose a valid date.
+      </div>
+      <div class="modal-footer">
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="submitModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="exampleModalLabel">Survey Added</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        You have successfully added a new Survey.
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" [routerLink]="['/survey/current-survey']">Close</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Add More</button>
+      </div>
+    </div>
+  </div>
+</div>

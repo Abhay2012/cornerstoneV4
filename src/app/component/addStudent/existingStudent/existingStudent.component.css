@@ -1,0 +1,236 @@
+
+/*Btn css*/
+.existing{
+  min-width: 400px;
+
+}
+.button
+{
+    text-transform: uppercase;
+    /* letter-spacing: 2px; */
+    /* text-align: center; */
+    color: #303342;
+    font-size: 114%;
+    font-family: "Nunito", sans-serif;
+    font-weight: 500;
+    /* margin: 10px; */
+    padding: 9px;
+    width: 220px;
+    height: 30px;
+    background: #FFF;
+    border: 1px solid #303342;
+    color: #303342;
+    overflow: hidden;
+    transition: all 0.5s;
+}
+
+ .selectedbtn ,.button:hover
+{
+  text-decoration: none;
+  color: #FFF;
+  border-color: #303342;
+  background:#303342 ;
+}
+
+.button span 
+{
+  display: inline-block;
+  position: relative;
+  padding-right: 0;
+  
+  transition: padding-right 0.5s;
+}
+
+.button span:after 
+{
+  content: ' ';  
+  position: absolute;
+  top: 0;
+  right: -18px;
+  opacity: 0;
+  width: 10px;
+  height: 10px;
+  margin-top: -10px;
+
+  background: #e4e9f4;
+  border: 3px solid #FFF;
+  border-top: none;
+  border-right: none;
+
+  transition: opacity 0.5s, top 0.5s, right 0.5s;
+  transform: rotate(-45deg);
+}
+
+ .button:active span ,.button:hover span
+{
+  padding-right: 30px;
+}
+
+.button:hover span:after, .button:active span:after 
+{
+  transition: opacity 0.5s, top 0.5s, right 0.5s;
+  opacity: 1;
+  border-color: #303342;
+  right: 0;
+  top: 50%;
+}
+
+/*Form*/
+
+.form-div{
+
+      margin: 5% auto;
+
+}
+
+.arrayForm{
+  margin-top: 3%;
+}
+
+.arrayRow{
+    padding: 0% 3% 2% 1%;
+    background: #f6f6f7;
+    margin: 2%;
+}
+
+p{
+  font-size: 15px;
+}
+
+.profilePic
+{
+  width: 100px;
+    height: 100px;
+    border-radius: 100%;
+    margin-bottom: 4%;
+    border: 3px solid white;
+    box-shadow: 0px 9px 16px grey;
+}
+
+.profilePic1
+{
+    width: 70px;
+    height: 70px;
+    border-radius: 20%;
+    margin-bottom: 4%;
+    border: 3px solid white;
+    box-shadow: 0px 9px 16px grey;
+}
+
+.profilePic:hover{
+    border-radius: 100%;
+    opacity: 0.5;
+}
+
+.profilePic1:hover{
+    border-radius: 20%;
+    opacity: 0.5;
+}
+
+tr,td,table
+{
+  border: none !important;
+}
+
+.table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th {
+    vertical-align: middle !important;
+}
+
+
+.studentList 
+{
+  width:100%;  
+  max-height: 200px;
+  overflow:hidden;
+  overflow-y:scroll;
+ }
+
+/* .custom-icon{
+       position: relative; 
+     top: 1px;  
+ 
+    font-family: 'Glyphicons Halflings';
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+} */
+
+.loader {
+  text-align: center !important;
+}
+
+
+.badge{
+  float: right;
+   /* margin-right: 5%; */
+}
+
+/* .view-btn{
+  float: right;
+} */
+
+.student-image{
+  width: 30px;
+  border-radius: 100%
+}
+
+.inner-table{
+  width: 100%;
+    max-width: 100%;
+    margin-bottom: 20px;
+}
+
+.inner-table>tbody>tr>td, .inner-table>tbody>tr>th, .inner-table>thead>tr>td, .inner-table>thead>tr>th {
+    padding: 8px;
+    line-height: 1.42857143;
+    vertical-align: top;
+    border-top:none !important;
+    border-right: 1px solid #ddd !important;
+}
+  .inner-table>thead>tr>td{
+    border-bottom:1px solid #ddd !important;
+  }
+/* td{
+  border-right-style: solid !important;
+} */
+
+ .detail-table>tbody>tr>td{
+  border-right:1px solid #ddd !important;
+} 
+.glyphicon-pencil{
+  top:-32px !important;
+}
+
+.fixed{
+  /* position: fixed; */
+}
+/* .table{
+  display: block;
+  height: 100px;
+  overflow-x: auto;
+  overflow-y: auto;
+} */
+
+.searchStu{
+  margin-top:15px !important;
+}
+
+.row{
+  margin:0 !important;
+}
+
+.list-btn{
+  float: right;
+    margin-top: -30px;
+    background: none;
+    border: none;
+}
+
+.pointer{
+  cursor: pointer;
+}
+
+.pointer:hover{
+  background: rgba(48, 51, 66, 0.04);
+}

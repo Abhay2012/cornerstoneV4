@@ -1,0 +1,39 @@
+
+/*List Style*/
+
+.content {
+ 
+  
+  width: 20rem;
+  margin: -4rem auto 0 auto;
+  padding: 1rem;
+  
+  background: #fff;
+  
+  border-radius: rem(2);
+  box-shadow: 0 rem(2) rem(5) 0 rgba(0, 0, 0, 0.25);
+}
+
+/* .list {
+  height: 81px;
+  overflow-y:scroll;
+  list-style:none;
+} */
+
+.standardLoad{
+  position: relative;
+  top:25%;
+}
+
+.file-list-items{
+  list-style-type: none;
+}
+
+.file-list{
+  padding-left: 0px;
+}
+
+input[type=file]{ 
+        color:transparent;
+    }
+

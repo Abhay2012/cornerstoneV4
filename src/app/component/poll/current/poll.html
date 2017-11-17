@@ -1,0 +1,115 @@
+<div class="panel panel-default">
+
+
+  <div class="panel-body">
+    <div class="add-button">
+      <button type="button" class="btn btn-success btn-circle" [routerLink]="['/poll/add-poll']">
+        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+      </button>
+    </div>
+    <br>
+    <div class="row text-center">
+      <loader [condition]="loader"></loader>
+    </div>
+    <div  style="margin-top: 2%;padding-top: 1%;">
+      <div *ngIf="!emptyPolls">
+        <div class="panel panel-default" *ngFor="let p of polls;let i=index">
+          <div class="panel-heading custom-panel-heading">
+               Ques {{i+1}}. {{p.question}}
+          </div>
+          <div class="panel-body" style="padding: auto 0;">
+            <div class="flot-chart" style="padding:auto 0;">
+              <div class="row">
+                <div class="col-lg-6">
+                  <ul class="" style="list-style-type:none;margin:0;padding:0;" *ngFor="let o of p.options">
+                    <li class="pollChoice">{{o.name}}
+                      <div class="progress pollProgress">
+                        <span class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" [attr.aria-valuenow]="o.percent"
+                          aria-valuemin="0" aria-valuemax="100" [style.width]="(o.percent/100)*100 + '%'">
+                        <span style="margin:auto;"> {{o.percent}}% </span>
+                        </span>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+                <div class="col-lg-6">
+                  <div class="pole-info">
+                    <ul class="" style="list-style-type:none;margin:0;padding:0;">
+                      <li *ngIf="p.employeeName" class="pole-info-list">
+                        <div class="col-sm-2">
+                          <i class="fa fa-user-circle-o" aria-hidden="true"></i>
+                        </div>
+                        <div class="col-sm-10">
+                          <label>Created By:</label> <span class=" ">{{p.employeeName}}</span>
+                        </div>
+                      </li>
+                      <li *ngIf="p.typeId==1" class="pole-info-list">
+                        <div class="col-sm-2">
+                          <i class="fa fa-users" aria-hidden="true"></i>
+                        </div>
+                        <div class="col-sm-10">
+                          <label>Audience:</label> <span class=" ">{{p.typeName}}</span>
+                        </div>
+                      </li>
+                      <li *ngIf="p.typeId==2" class="pole-info-list">
+                        <div class="col-sm-2">
+                          <i class="fa fa-users" aria-hidden="true"></i>
+                        </div>
+                        <div class="col-sm-10" style="margin-bottom:15px">
+                          <label>Audience:</label>
+                          <span class=" ">
+                  <ul *ngFor="let s of p.standards" >
+                    <li>{{s.name}} </li>
+                  </ul>
+                </span>
+                        </div>
+                      </li>
+                      <li class="pole-info-list">
+                        <div class="col-sm-2">
+                          <i class="fa fa-question-circle" aria-hidden="true"></i>
+                        </div>
+                        <div class="col-sm-10">
+                          <label class="">Question Type:</label>
+                          <span class=" ">{{p.optionTypeName}}</span>
+                        </div>
+                      </li>
+                      <li class="pole-info-list">
+                        <div class="col-sm-2">
+                          <i class="fa fa-sort-numeric-asc" aria-hidden="true"></i>
+                        </div>
+                        <div class="col-sm-10">
+                          <label class="">Count: </label> <span class=" ">{{p.count}}</span>
+                        </div>
+                      </li>
+                      <li class="pole-info-list">
+                        <div class="col-sm-2">
+                          <i class="fa fa-calendar" aria-hidden="true"></i>
+                        </div>
+                        <div class="col-sm-5">
+                          <label class="">Created At: </label>
+                          <div class=" ">{{p.createdAt | date}}</div>
+                        </div>
+                        <div class="col-sm-5">
+                          <label class="">Due Date:</label>
+                          <div class=""> {{p.expiredAt | date}}</div>
+
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row col-lg-12" style="text-align: center" *ngIf="(emptyPolls)&&(!loader)&&(currentPage==1)"><b>No Polls are added to the view.</b></div>
+    <div class="row col-lg-12" style="text-align: center" *ngIf="(emptyPolls)&&(!loader)&&(currentPage!=1)"><b>No more Polls are added to the view.</b></div>
+  </div>
+
+  <div class="panel-footer">
+    <!--<button type="button" (click)="previousPoll()" [disabled]="currentPage === 1" class="btn btn-primary">Previous</button>-->
+    <div class="text-center"><button type="button" (click)="nextPoll()" [disabled]="emptyPolls || noMore" class="btn btn-primary">Load More</button></div>
+  </div>
+</div>

@@ -1,0 +1,132 @@
+<div class="panel panel-default">
+  
+  <div class="row text-center">
+    <loader [condition]="loader"></loader>
+  </div>
+
+  <form [formGroup]="newStudentForm" (submit)="submitNewStudent()">
+    <div class="panel-body">
+
+
+      <div class="row" style="border: 1px solid #dddddd;margin: 3% 1%;padding: 1%;">
+        <h4>Student Details</h4>
+        <br>
+        <div class="form-group col-sm-6">
+          <label for="sname">Student's Name</label>
+          <input type="text" id="sname" class="form-control" formControlName="name" placeholder="Enter Student's Name">
+          <div [hidden]="newStudentForm.controls.name.valid|| newStudentForm.controls.name.untouched || newStudentForm.controls.name.pristine" class="alert alert-warning">This field is required</div>
+        </div>
+        <div class="form-group col-sm-6">
+          <label for="stnd">Select Standard</label>
+          <select id="stnd" class="form-control" formControlName="standardId">
+            <option selected="true" disabled="true" value="">Select Standard</option>   
+            <option *ngFor="let s of standards" [value]="s.id">{{s.name}}</option>
+          </select>
+          <loader [condition]="standardLoader" class="dropdownLoader"></loader>
+          <div [hidden]="newStudentForm.controls.standardId.valid|| newStudentForm.controls.standardId.untouched" class="alert alert-warning">This field is required</div>
+          
+        </div>
+      </div>
+      <div class="row" style="border: 1px solid #dddddd;margin: 3% 1%;padding: 1%;">
+        <h4>Parent Details</h4>
+        <br>
+
+        <div class="form-group col-sm-12" formArrayName="parent">
+
+          <div class="row arrayRow" *ngFor="let par of newStudentForm.controls.parent['controls']; let i=index;" [formGroupName]="i">
+
+            <!--
+              <label for="stnd">Select Parent</label>
+              <select id="stnd" class="form-control" [(ngModel)]="parent" [ngModelOptions]="{standalone: true}" (ngModelChange)="onParent($event,i)">
+            <option *ngFor="let p of parents" [value]="p.name">{{p.name}}</option>
+          </select>-->
+
+            <div class="arrayForm">
+              <div class="form-group col-sm-12">
+                <label for="fname">Parent's Name</label>
+                <input type="text" id="fname" class="form-control" placeholder="Enter Parent's Name" formControlName="name">
+                 <div [hidden]="newStudentForm.controls.parent.controls[i].controls.name.valid || newStudentForm.controls.parent.controls[i].controls.name.untouched || newStudentForm.controls.parent.controls[i].controls.name.pristine" class="alert alert-warning">This field is required</div> 
+              </div>
+              <div class="form-group col-sm-12">
+                <label for="nickname">Parent's Nick Name</label>
+                <input type="text" id="nickname" class="form-control" placeholder="Enter Parent's Nick Name" formControlName="nickName">
+              </div>
+              <div class="form-group col-sm-12">
+                <label for="ename">Parent's Contact Number</label>
+                <input type="text" id="ename" class="form-control" placeholder="Enter Parent's Contact Number" formControlName="contactNo">
+                <div [hidden]="newStudentForm.controls.parent.controls[i].controls.contactNo.valid || newStudentForm.controls.parent.controls[i].controls.contactNo.untouched || newStudentForm.controls.parent.controls[i].controls.contactNo.pristine" class="alert alert-warning">This field is required
+                  <div style="color:red">Contact No should be of 9 to 12 digits</div></div> 
+
+              </div>
+              <div class="form-group col-sm-12">
+                <label for="cname">Parent's Email ID</label>
+                <input type="text" id="cname" class="form-control" placeholder="Enter Parent's Email ID" formControlName="email">
+                <div [hidden]="newStudentForm.controls.parent.controls[i].controls.email.valid || newStudentForm.controls.parent.controls[i].controls.email.untouched || newStudentForm.controls.parent.controls[i].controls.email.pristine" class="alert alert-warning">This field is required
+                  <div style="color:red">Please enter valid email-address</div></div>   
+              </div>
+              <div class="row">
+                <button type="button" [disabled]="newStudentForm.controls.parent.length == 1" class="btn btn-primary active pull-right" (click)="removeParent(newStudentForm,i)">
+                    Delete Parent
+                  </button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="row" style="margin:5% 5% 0% 5%;">
+          <button type="button" [disabled]="((newStudentForm.invalid)||(newStudentForm.controls.parent['controls'].length==3))" class="btn btn-primary active"
+            (click)="addParent(newStudentForm)">
+                    Add Parent
+            </button>
+        </div>
+      </div>
+    </div>
+    <div class="panel-footer" style="height: 56px;">
+      <button type="submit" [disabled]="newStudentForm.invalid" class="btn btn-success pull-right">Submit</button>
+    </div>
+
+  </form>
+
+</div>
+
+<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="exampleModalLabel">Student Added</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        You have successfully added a new Student.
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" >Close</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Add More</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="errModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="exampleModalLabel">Student Already Exist</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <ul class="list-group" *ngFor="let x of mes">
+          <li class="list-group-item" style="cursor:pointer" (click)="navigateToExisting(x.standardId,x.studentId)">{{"Name : " + x.studentName}} <br>{{"Standard : " + x.standardName}}</li>
+        </ul>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" >Close</button>
+      </div>
+    </div>
+  </div>
+</div>

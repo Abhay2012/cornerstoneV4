@@ -1,0 +1,529 @@
+<div class="calendar-custom">
+    <angular2-fullcalendar [options]="calendarOptions" id="calendar"></angular2-fullcalendar>
+    <div class="row text-center">
+        <loader [condition]="loader" class="centerLoader"></loader>    
+    </div>
+</div> 
+<div id="fullCalModal" class="modal fade" >
+    <div class="modal-dialog">
+        <div class="modal-content"  *ngIf="eventsInfo">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span> <span class="sr-only">close</span></button>
+                <h4 id="event-title" class="event-title" >{{eventsInfo.title}}</h4>
+            </div>
+            <div style="padding: 0px" id="modalBody" class="modal-body">
+            <div style="overflow: hidden">
+
+
+                <span *ngIf="selectedEvent.files && selectedEvent.files[imgindex-1]">
+            
+                <img  *ngIf="selectedEvent.files[imgindex-1].fileOriginalName.substr(selectedEvent.files[imgindex-1].fileOriginalName.length - 4) != '.pdf'" style="float:left;" (click)="swipe(-1)" class="sideimage" [attr.src]="fileUrl + selectedEvent.files[imgindex-1].fileTimestamp">
+
+                <img  *ngIf="selectedEvent.files[imgindex-1].fileOriginalName.substr(selectedEvent.files[imgindex-1].fileOriginalName.length - 4) == '.pdf'" style="float:left;" (click)="swipe(-1)" class="sideimage" src="./app/img/pdf1.jpg">
+              
+              </span>
+
+                <span *ngIf="imgindex==0"  style="float:left;top:83px;width:161px;height:16px;"></span>
+
+                <div class="download-image-modal" *ngIf="selectedEvent.files" style="float:left">
+                <span *ngIf="selectedEvent.files && selectedEvent.files[imgindex]">
+               <img *ngIf="selectedEvent.files[imgindex]?.fileOriginalName.substr(selectedEvent.files[imgindex].fileOriginalName.length - 4) != '.pdf'" class="image1" [attr.src]="fileUrl + selectedEvent.files[imgindex].fileTimestamp">
+
+               <img *ngIf="selectedEvent.files[imgindex]?.fileOriginalName.substr(selectedEvent.files[imgindex].fileOriginalName.length - 4) == '.pdf'" class="image1" src="./app/img/pdf1.jpg">
+
+                </span>
+                    <div class="edit-image-modal"><a [attr.href]="fileUrl + selectedEvent.files[0].fileTimestamp" [download]="custom"><i class="fa fa-download fa-lg"></i></a></div>
+                </div>
+
+                <span *ngIf=" selectedEvent.files && imgindex == selectedEvent.files.length-1 "  style="float:left;top:83px;width:161px;height:16px;" ></span>
+
+                <span *ngIf="selectedEvent.files && selectedEvent.files[imgindex+1]">
+          
+                <img *ngIf="selectedEvent.files[imgindex+1].fileOriginalName.substr(selectedEvent.files[imgindex+1].fileOriginalName.length - 4) != '.pdf'" style="float:left;" (click)="swipe(1)" class="sideimage" [attr.src]="fileUrl + selectedEvent.files[imgindex+1].fileTimestamp">
+
+                <img *ngIf="selectedEvent.files[imgindex+1].fileOriginalName.substr(selectedEvent.files[imgindex+1].fileOriginalName.length - 4) == '.pdf'" style="float:left;" (click)="swipe(1)" class="sideimage" src="./app/img/pdf1.jpg">
+
+                </span>
+                
+                <span style="float:right;right:10px;top:100px;position:fixed; color:black" [title]=" disable == true ? 'You Cannot edit' : '' " class="glyphicon glyphicon-pencil" data-toggle="modal" data-dismiss="modal" data-target="#modal-edit-image" *ngIf="!disable" (click)="imgArray()" ></span>
+
+            </div>
+            <br>
+            <span>
+              <img class="image1" *ngIf="!selectedEvent.files" src="./app/img/preview.png" alt="No Preview Avalable">
+            </span>
+
+
+            <br *ngIf="selectedEvent.files">
+
+            <div style="margin:auto;text-align: center" >
+                <div style="display: inline;margin:auto; ;" *ngFor=" let x of selectedEvent.files ; let i=index ">
+                    <span class="dots" *ngIf="i!=imgindex" (click)="swipebydots(i)" class="glyphicon glyphicon-one-fine-empty-dot"></span>
+                    <span class="dots" *ngIf="i==imgindex" (click)="swipebydots(i)" class="glyphicon glyphicon-one-fine-full-dot"></span>
+                </div>
+            </div>
+            <br>
+                <div style="overflow:hidden">
+                    <span style="float:right;margin-right:20px;" [title]=" disable == true ? 'You Cannot edit' : '' " class="glyphicon glyphicon-pencil" data-toggle="modal" data-dismiss="modal" data-target="#modal-edit" *ngIf="!disable" (click)="imgArray()" ></span>
+                </div>
+                <br>
+                <div class="row date">
+                    <div class="col-sm-2">
+                        <span class="glyphicon glyphicon-calendar pull-right"></span>
+                    </div>
+                    <div class="col-sm-5">
+                        <div class="start-date">
+                            <label for="start-date">Start date:</label>
+                            <div  id="start-date" >{{eventsInfo.startDate}}</div>
+                        </div>
+                    </div>
+                    <div class="col-sm-5">
+                        <div class="end-date" id="end-date">
+                            <label for="end-date">End date:</label>
+                            <div id="end-date" >{{eventsInfo.endDate}}</div>
+                        </div>
+                    </div>
+                </div>
+                <hr class="style-line" *ngIf="!((eventsInfo.plannerTypeId==3) ||(eventsInfo.plannerTypeId==4))">
+                <div class=" row time" *ngIf="!((eventsInfo.plannerTypeId==3) ||(eventsInfo.plannerTypeId==4))">
+                    <div class="col-sm-2">
+                        <span class="glyphicon glyphicon-time pull-right"></span>
+                    </div>
+                    <div class="col-sm-5">
+                        <div class="start-time" id="start-time">
+                            <label for="start-time">Start Time:</label>
+                            <div id="start-time" >{{eventsInfo.startTime}}</div>
+                        </div>
+                    </div>
+                    <div class="col-sm-5">
+                        <div class="end-time" id="end-time">
+                            <label for="end-time">End Time:</label>
+                            <div id="end-time" >{{eventsInfo.endTime}}</div>
+                        </div>
+                    </div>
+                </div>
+                <hr class="style-line">
+                <div class="row">
+                    <div class="col-sm-2">
+                        <span class="glyphicon glyphicon-list-alt pull-right"></span>
+                    </div>
+                    <div class="col-sm-5">
+                        <div class="planner-type">
+                            <label for="planner-type">Planner-type</label>
+                            <div id="planner-type">{{eventsInfo.plannerTypeName}}</div>
+                        </div>
+                    </div>
+                    <!-- <div class="col-sm-5">
+                        <div class="planner-type">
+                            <button (click)="openGallery()" class="btn btn-primary">Gallery</button>
+                        </div>
+                    </div> -->
+                </div>
+                <hr class="style-line" *ngIf="eventsInfo.plannerTypeId==2">
+                <div class="row" *ngIf="eventsInfo.plannerTypeId==2">
+                    <div class="col-sm-2">
+                        <span class="glyphicon glyphicon-th-list pull-right"></span>
+                    </div>
+                    <div class="col-sm-10">
+                        <label for="standard">For</label>
+                        <div id="standard" *ngFor="let s of eventsInfo.standards">{{s}}</div>
+                    </div>
+                </div>
+                <hr class="style-line" *ngIf="eventsInfo.description">
+                <div class="row" *ngIf="eventsInfo.description">
+                    <div class="col-sm-2">
+                        <span class="glyphicon glyphicon-pencil pull-right"></span>
+                    </div>
+                    <div class="col-sm-10">
+                        <div class="description" >
+                            <label for="description" >Description:</label>
+                            <div id="description"><span class="white-space">{{eventsInfo.description}}</span></div>
+                        </div>
+                    </div>
+                </div>
+                <hr class="style-line" *ngIf="eventsInfo.location">
+                <div class="row" *ngIf="eventsInfo.location">
+                    <div class="col-sm-2">
+                        <span class="glyphicon glyphicon-map-marker pull-right"></span>
+                    </div>
+                    <div class="col-sm-10">
+                        <div class="location"  >
+                            <label for="location">location:</label>
+                            <div id="location">{{eventsInfo.location}}</div>
+                        </div> 
+                    </div> 
+                </div>
+            </div>
+            <div class="modal-footer">
+
+                <button [title]=" disable == true ? 'You Cannot Delete' : '' " type="button" class="btn btn-primary" data-toggle="modal" data-dismiss="modal" data-target="#modal-delete" (click)="deleteEvent()" [disabled]="disable">Delete</button>              
+                <!-- <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button> -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="fullCalView" class="modal fade" >
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span>Create new Event</span>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span> <span class="sr-only">close</span></button>
+                <h4 id="title" class="modal-title"></h4>
+            </div>
+             <div id="modalBody" class="modal-body">
+                <form name="event" [formGroup]="event" novalidate>
+                    <div class="form-group">
+                        <label for="title">Title</label>
+                        <span class="badge">{{50-event.value.title.length}}</span>
+                        <input type="text" class="form-control" id="title" formControlName="title" maxlength="50" placeholder="Enter Title">
+                        <div [hidden]="event.controls.title.untouched || event.controls.title.pristine || event.controls.title.valid" class="alert alert-warning">
+                            This field is required
+                        </div>
+                        </div>
+                    
+                    <div class="form-group">
+                        <label for="planner">Planner-type</label>
+                        <select 
+                        class="form-control" 
+                        id="planner" 
+                        name="planner" 
+                        formControlName="plannerTypeId" 
+                        (ngModelChange)="selectPlannerType($event)">
+                            
+                            <option disabled="true" selected="true" value=''>Select Planner</option>    
+                            <option *ngFor="let p of planner" 
+                            [value]="p.id" >
+                                {{p.name}}
+                            </option>
+
+                        </select>
+                        <loader [condition]="plannerLoader" class="dropdownLoader"></loader>
+                        <div [hidden]="event.controls.plannerTypeId.untouched || event.controls.plannerTypeId.pristine || event.controls.plannerTypeId.valid" class="alert alert-warning">
+                            This field is required
+                        </div>  
+                    </div>
+                     <div class="form-group" *ngIf="event.value.plannerTypeId==2">
+                     
+<!--                         <label for="standard">Select Standard</label>
+                         <select class="form-control" id="standard" name="standardId"[(ngModel)]="standards" (ngModelChange)="selectStandards($event)" [ngModelOptions]="{standalone: true}" multiple>
+                            <option *ngFor="let s of standard" [ngValue]="s">{{s.name}}</option>
+                        </select>  -->
+                        
+                        <label for="standardIds">Select Standard</label>
+                        <button style="text-align: left;" type="button" class="form-control" *ngIf="standard != null" (click)="dropdown ? dropdown = false : dropdown = true ">{{buttonlabel}}</button>
+                        <button type="button" class="form-control" *ngIf="standard == null">No Standards are added to the View. Try again later.</button>
+                        <ul class="list" id="standardIds" *ngIf="dropdown">
+                            <li style="    margin-left: -34px;     /* text-indent: -18px; */ " *ngFor="let a of standard">
+                            <label>
+                            <input type="checkbox" class="checkbox" [ngModel]="checkcheckedbox(a)" (ngModelChange)="selectStandards(a,$event)" [ngModelOptions]="{standalone: true}" [value]="a.id">
+                            {{a.name}}
+                            </label>
+                        </li>
+                        </ul>
+                        <loader [condition]="standardLoader" class="dropdownLoader"></loader>
+                    </div>
+                     <div class="form-group">
+                        <label for="startDate">Start Date</label>
+                        <input class="form-control glyphicon glyphicon-calendar" type="date" id="startDate1" name="startDate" formControlName="startDate" (change)="onDueDate($event)" >                                                
+                           <div [hidden]="(event.controls.startDate.valid) || (event.controls.startDate.untouched)" class="alert alert-warning">This field is required</div>                           
+                    </div>
+                    <div class="form-group">
+                        <label for="endDate">End Date</label>
+                        <input class="form-control glyphicon glyphicon-calendar" type="date" id="endDate" name="endDate" formControlName="endDate" (change)="checkDate($event)" >                                                
+                        <div [hidden]="(event.controls.endDate.valid) || (event.controls.endDate.untouched)" class="alert alert-warning">This field is required</div>                                               
+                    </div>
+                    <div *ngIf="((event.value.plannerTypeId==1) || (event.value.plannerTypeId==2) ||(event.value.plannerTypeId==5) ||(event.value.plannerTypeId==6))">
+                        <div class="form-group">
+                            <label for="startTime">Start Time</label>
+                            <input type="time" class="form-control glyphicon glyphicon-time" id="startTime" name="startTime" [(ngModel)]="start" (ngModelChange)="startT($event)" [ngModelOptions]="{standalone: true}">                                                
+                           <!-- <div [hidden]="(event.controls.startTime.valid) || (event.controls.startTime.untouched) " class="alert alert-warning">This field is required</div>                                                    -->
+                        </div>
+                            <!-- <div>valid:{{event.controls.startTime.valid}} pristine:{{event.controls.startTime.pristine}}</div> -->
+                        
+                        <div class="form-group">
+                            <label for="startTime">End Time</label>
+                            <input type="time" class="form-control glyphicon glyphicon-time" id="endTime" name="endTime" [(ngModel)]="end" (ngModelChange)="endT($event)" [ngModelOptions]="{standalone: true}">                                                
+                           <!-- <div [hidden]="(event.controls.endTime.valid) || (event.controls.endTime.untouched)" class="alert alert-warning">This field is required</div>                                                                                -->
+                        </div> 
+                    </div>  
+                    
+                    
+                    <div class="form-group">
+                        <label for="description">Description</label>
+                        <span class="small">Optional</span>
+                        <span class="badge">{{2000-event.value.description.length}}</span>
+                        <input type="text" class="form-control" id="description" name="description" formControlName="description" maxlength="2000" placeholder="Description">                                                
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for="location">Location</label>
+                        <span class="small">Optional</span>
+                        <span class="badge">{{50-event.value.location.length}}</span>
+                        <input type="text" class="form-control" id="location" name="location" formControlName="location" placeholder=" Enter location of event" maxlength="50">                                                
+                    </div>
+
+                    <div>
+                        <div>Attachment<span class="small">(Optional)</span></div>
+                        <input type="file"  [title]="noOfFiles" class="form-control-file" formControlName="files" id="exampleInputFile" aria-describedby="fileHelp" (change)="getFile($event)"  multiple>
+                        <span *ngIf="maxfile">* Max 5 files</span>
+                        <ul class="file-list" >
+                            <li class="file-list-items" *ngFor="let f of file">{{f.name}} <span style="font-size: 15px;" class="glyphicon glyphicon-remove" (click)="removeFile(f)"></span></li>
+                        </ul>
+                    </div>
+                </form>     
+            </div> 
+            <div class="modal-footer">
+                <button type="button" (click)="createFormData()" class="btn btn-primary" [disabled]="!event.valid || maxfile" data-dismiss="modal">Submit</button>
+                <!-- <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button> -->
+            </div>
+        </div>
+    </div>
+</div>
+<div id="modal-edit" class="modal fade" *ngIf="selectedEvent">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span> <span class="sr-only">close</span></button>
+            </div>
+            <div id="modalBody" class="modal-body">
+                <form name="editEvent" [formGroup]="editEvent" novalidate>
+                    <div class="form-group">
+                        <label for="title">Title</label>
+                        <span class="badge">{{50-editEvent.value.title.length}}</span>
+                        <input type="text" class="form-control" id="title" formControlName="title" maxlength="50" placeholder="Enter Title">
+                        <!-- <div [hidden]="event.controls.title.untouched || event.controls.title.pristine || event.controls.title.valid" class="alert alert-warning"> -->
+                            <!-- This field is required -->
+                        <!-- </div> -->
+                        </div>
+                      <!-- <div class="form-group" *ngIf="selectedEvent.plannerTypeId==2">
+
+                        <label for="standardIds">Select Standard</label>
+                        <button type="button" class="form-control" *ngIf="standard != null" (click)="dropdown ? dropdown = false : dropdown = true;"></button>
+                        <button type="button" class="form-control" *ngIf="standard == null">No Standards are added to the View. Try again later.</button>
+                        <ul class="list" id="standardIds" *ngIf="dropdown">
+                            <li style="    margin-left: -34px;     /* text-indent: -18px; */ " *ngFor="let a of standard">
+                            <label>
+                            <input type="checkbox" class="checkbox" [ngModel]="a.checked" (ngModelChange)="editStandards(a,$event)" [ngModelOptions]="{standalone: true}" [value]="a.id">
+                            {{a.name}}
+                            </label>
+                        </li>
+                        </ul>
+                    </div> -->
+                     <div class="form-group">
+                        <label for="startDate">Start Date</label>
+                        <input class="form-control glyphicon glyphicon-calendar" type="date" id="startDate" name="startDate" formControlName="startDate" (change)="onStartDate($event)" >                                                
+                           <!-- <div [hidden]="(event.controls.startDate.valid) || (event.controls.startDate.untouched) || (event.controls.startDate.pristine)">This field is required</div>                            -->
+                    </div>
+                    <div class="form-group">
+                        <label for="endDate">End Date</label>
+                        <input type="date" class="form-control glyphicon glyphicon-calendar" id="end" name="endDate" formControlName="endDate" (change)="check($event)">                                                
+                           <!-- <div [hidden]="(event.controls.endDate.valid) || (event.controls.endDate.untouched) || (event.controls.endDate.pristine)">This field is required</div>                            -->
+                    
+                    </div>
+                    <div *ngIf="((selectedEvent.plannerTypeId==1) || (selectedEvent.plannerTypeId==2) ||(selectedEvent.plannerTypeId==5) ||(selectedEvent.plannerTypeId==6))">
+                        <div class="form-group">
+                            <label for="startTime">Start Time</label>
+                            <input type="time" class="form-control glyphicon glyphicon-time" id="startTime" name="startTime" formControlName="startTime" (ngModelChange)="checkStart($event)"   >                                                
+                           <!-- <div [hidden]="(event.controls.startTime.valid) || (event.controls.startTime.untouched) || (event.controls.startTime.pristine)">This field is required</div>                                                    -->
+                        </div>
+                        <div class="form-group">
+                            <label for="startTime">End Time</label>
+                            <input type="time" class="form-control glyphicon glyphicon-time" id="endTime" name="endTime" formControlName="endTime" (ngModelChange)="checkEnd($event)" >                                                
+                           <!-- <div [hidden]="(event.controls.startTime.valid) || (event.controls.startTime.untouched) || (event.controls.startTime.pristine)">This field is required</div>                                                                                -->
+                        </div> 
+                    </div>  
+                    
+                    
+                    <div class="form-group">
+                        <label for="description">Description</label>
+                        <span class="small">Optional</span>
+                        <span class="badge">{{2000-editEvent.value.description.length}}</span>
+                        <input type="text" class="form-control" id="description" name="description" formControlName="description" maxlength="2000" placeholder="Description">                                                
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for="location">Location</label>
+                        <span class="small">Optional</span>
+                        <span *ngIf="editEvent.value.location" class="badge">{{50-editEvent.value.location.length}}</span>
+                        <input type="text" class="form-control" id="location" name="location" formControlName="location" placeholder=" Enter location of event" maxlength="50">                                                
+                    </div>
+
+                    <!-- <div class="form-group">
+                        <label for="location">Images</label>
+                        <span class="small">Optional</span>
+                        <div *ngFor=" let image of selectedEvent.files; let i =index ">
+                            <img style="height:50px;width:75px;" [attr.src]= "fileUrl + image.fileTimestamp"><span class="glyphicon glyphicon-remove"></span>                            
+                        </div>
+
+                        <input type="file" *ngIf="!maxfileE" [title]="noOfFiles" class="form-control-file" id="exampleInputFile" aria-describedby="fileHelp" (change)="getFileE($event)"  multiple>
+                        <span *ngIf="maxfileE">*max 5 files can be added</span>                                                
+                    </div> -->
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" (click)="resetForm()" class="btn btn-primary">Reset</button>                                                
+                <button type="button" [disabled]="maxfileE" (click)="updateEvent()" class="btn btn-primary" data-dismiss="modal" >Submit</button>                
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div> 
+<div id="modal-success" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span> <span class="sr-only">close</span></button>
+            </div>
+            <div id="modalBody" class="modal-body">
+                <span class="messsage">{{message}}</span>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="modal-gallery" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span> <span class="sr-only">close</span></button>
+                <h4 id="event-title" class="event-title" >Gallery</h4>
+
+            </div>
+            <div style="padding:0px;" id="modalBody" class="modal-body">
+
+                <div *ngIf="selectedEvent" style="overflow:hidden;"> 
+
+                    <span *ngIf="selectedEvent.files && selectedEvent.files[imgindex-1]">
+                
+                    <img  *ngIf="selectedEvent.files[imgindex-1].fileOriginalName.substr(selectedEvent.files[imgindex-1].fileOriginalName.length - 4) != '.pdf'" style="float:left;" (click)="swipe(-1)" class="sideimage" [attr.src]="fileUrl + selectedEvent.files[imgindex-1].fileTimestamp">
+
+                    <img  *ngIf="selectedEvent.files[imgindex-1].fileOriginalName.substr(selectedEvent.files[imgindex-1].fileOriginalName.length - 4) == '.pdf'" style="float:left;" (click)="swipe(-1)" class="sideimage" src="./app/img/pdf1.jpg">
+                  
+                  </span>
+                    <span *ngIf="imgindex==0"  style="float:left;top:83px;width:161px;height:16px;"></span>
+
+                   <div class="download-image-modal" *ngIf="selectedEvent.files" style="float:left">
+                    <span *ngIf="selectedEvent.files[imgindex]">
+                   <img *ngIf="selectedEvent.files[imgindex].fileOriginalName.substr(selectedEvent.files[imgindex].fileOriginalName.length - 4) != '.pdf'" class="image1" [attr.src]="fileUrl + selectedEvent.files[imgindex].fileTimestamp">
+
+                   <img *ngIf="selectedEvent.files[imgindex].fileOriginalName.substr(selectedEvent.files[imgindex].fileOriginalName.length - 4) == '.pdf'" class="image1" src="./app/img/pdf1.jpg">
+
+                    </span>
+                        <div class="edit-image-modal"><a [attr.href]="fileUrl + selectedEvent.files[0].fileTimestamp" [download]="custom"><i class="fa fa-download fa-lg"></i></a></div>
+                    </div>
+
+                     <span *ngIf=" selectedEvent.files && imgindex == selectedEvent.files.length-1 "  style="float:left;top:83px;width:161px;height:180px;" ></span>
+
+                     <span *ngIf="selectedEvent.files && selectedEvent.files[imgindex+1]">
+          
+                    <img *ngIf="selectedEvent.files[imgindex+1].fileOriginalName.substr(selectedEvent.files[imgindex+1].fileOriginalName.length - 4) != '.pdf'" style="float:left;" (click)="swipe(1)" class="sideimage" [attr.src]="fileUrl + selectedEvent.files[imgindex+1].fileTimestamp">
+
+                    <img *ngIf="selectedEvent.files[imgindex+1].fileOriginalName.substr(selectedEvent.files[imgindex+1].fileOriginalName.length - 4) == '.pdf'" style="float:left;" (click)="swipe(1)" class="sideimage" src="./app/img/pdf1.jpg">
+
+                    </span>
+
+                    <br *ngIf="selectedEvent.files">
+
+                    <div style="text-align: center">
+                        <div style="display: inline;margin:auto; ;" *ngFor=" let x of selectedEvent.files ; let i=index ">
+                        <span class="dots" *ngIf="i!=imgindex" (click)="swipebydots(i)" class="glyphicon glyphicon-one-fine-empty-dot"></span>
+                        <span class="dots" *ngIf="i==imgindex" (click)="swipebydots(i)" class="glyphicon glyphicon-one-fine-full-dot"></span>
+                        </div>
+                    </div>    
+                </div>
+          <!-- <br *ngIf="selectedEvent.files">
+
+            <div style="margin:auto;text-align: center" >
+                <div style="display: inline;margin:auto; ;" *ngFor=" let x of selectedEvent.files ; let i=index ">
+                    <span class="dots" *ngIf="i!=imgindex" (click)="swipebydots(i)" class="glyphicon glyphicon-one-fine-empty-dot"></span>
+                    <span class="dots" *ngIf="i==imgindex" (click)="swipebydots(i)" class="glyphicon glyphicon-one-fine-full-dot"></span>
+                </div>
+            </div> -->
+
+
+               <!--  <div *ngIf="selectedEvent style="overflow: hidden">
+
+                    <span *ngIf="selectedEvent.files && selectedEvent.files[imgindex-1]">
+                
+                    <img  *ngIf="selectedEvent.files[imgindex-1].fileOriginalName.substr(selectedEvent.files[imgindex-1].fileOriginalName.length - 4) != '.pdf'" style="float:left;" (click)="swipe(-1)" class="sideimage" [attr.src]="fileUrl + selectedEvent.files[imgindex-1].fileTimestamp">
+
+                    <img  *ngIf="selectedEvent.files[imgindex-1].fileOriginalName.substr(selectedEvent.files[imgindex-1].fileOriginalName.length - 4) == '.pdf'" style="float:left;" (click)="swipe(-1)" class="sideimage" src="./app/img/pdf1.jpg">
+                  
+                  </span>
+
+                    <span *ngIf="imgindex==0"  style="float:left;top:83px;width:161px;height:16px;"></span>
+
+                    <div class="download-image-modal" *ngIf="selectedEvent.files" style="float:left">
+                    <span>
+                   <img *ngIf="selectedEvent.files[imgindex].fileOriginalName.substr(selectedEvent.files[imgindex].fileOriginalName.length - 4) != '.pdf'" class="image1" [attr.src]="fileUrl + selectedEvent.files[imgindex].fileTimestamp">
+
+                   <img *ngIf="selectedEvent.files[imgindex].fileOriginalName.substr(selectedEvent.files[imgindex].fileOriginalName.length - 4) == '.pdf'" class="image1" src="./app/img/pdf1.jpg">
+
+                    </span>
+                        <div class="edit-image-modal"><a [attr.href]="fileUrl + selectedEvent.files[0].fileTimestamp" [download]="custom"><i class="fa fa-download fa-lg"></i></a></div>
+                    </div>
+
+                    <span *ngIf=" selectedEvent.files && imgindex == selectedEvent.files.length-1 "  style="float:left;top:83px;width:161px;height:16px;" ></span>
+
+                    <span *ngIf="selectedEvent.files && selectedEvent.files[imgindex+1]">
+              
+                    <img *ngIf="selectedEvent.files[imgindex+1].fileOriginalName.substr(selectedEvent.files[imgindex+1].fileOriginalName.length - 4) != '.pdf'" style="float:left;" (click)="swipe(1)" class="sideimage" [attr.src]="fileUrl + selectedEvent.files[imgindex+1].fileTimestamp">
+
+                    <img *ngIf="selectedEvent.files[imgindex+1].fileOriginalName.substr(selectedEvent.files[imgindex+1].fileOriginalName.length - 4) == '.pdf'" style="float:left;" (click)="swipe(1)" class="sideimage" src="./app/img/pdf1.jpg">
+
+                    </span>
+                </div> -->
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>  
+
+<div id="modal-edit-image" class="modal fade" *ngIf="selectedEvent">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span> <span class="sr-only">close</span></button>
+                <h4 id="event-title" class="event-title" >Add or Remove Images</h4>
+            </div>
+            <div id="modalBody" class="modal-body">
+             
+                <div style="overflow: hidden" *ngIf="selectedEvent.files">
+                Remove Images :<br>
+                    <div style="width:282px;float:left;" *ngFor="let file of selectedEvent.files; let i = index ">
+                        <img style="width:200px;height:150px;" [src]="fileUrl + file.fileTimestamp">
+                        <span style="top:-65px" (click)="removeImage( file,i )" class="glyphicon glyphicon-remove"></span>                        
+                    </div>
+                </div>
+                <br>
+                <hr *ngIf="selectedEvent.files && selectedEvent.files.length < 5">
+                
+                <div *ngIf="selectedEvent.files && selectedEvent.files.length < 5">
+                Add Images :<br>
+                    <input type="file" [title]="noOfFiles" class="form-control-file" id="exampleInputFile" aria-describedby="fileHelp" (change)="getFileE($event)"  multiple>
+                        <span *ngIf="maxfileE">*max {{  5 - selectedEvent.files.length }} files can be added</span>
+                    <div *ngFor="let file of fileE; let i = index ">
+                        {{file.name}}<span (click)="removeEditImage(i)" class="glyphicon glyphicon-remove"></span>
+                    </div>              
+                        
+                </div>
+            </div>
+            <div class="modal-footer">                           
+                <button type="button" [disabled]=" selectedEvent.files && (fileE.length + selectedEvent.files.length > 5) " (click)="addImages()" class="btn btn-primary" data-dismiss="modal" >Add</button>                
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div> 
+
+

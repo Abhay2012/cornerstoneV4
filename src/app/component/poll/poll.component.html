@@ -1,0 +1,18 @@
+<div class="poll">
+
+  <!--<h1>Poll
+    <button type="button" class="btn btn-success btn-circle" [routerLink]="['/add-poll']">
+    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+  </button>
+
+  </h1>-->
+
+  <ul class="nav nav-tabs">
+    <li routerLinkActive="active"><a [routerLink]="['/poll/current-poll']">CURRENT</a></li>
+    <li routerLinkActive="active"><a [routerLink]="['/poll/closed-poll']">CLOSED</a></li>
+    
+  </ul>
+  <div class="tab-content">
+    <router-outlet></router-outlet>
+  </div>
+</div>

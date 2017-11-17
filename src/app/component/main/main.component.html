@@ -1,0 +1,158 @@
+<div id="wrapper">
+  <!--header start-->
+  <!--<div class="header-custom navbar-fixed-top">
+    <a class="nav-btn" id="menu-toggle"><i class="glyphicon glyphicon-menu-hamburger"></i></a>
+    <picture>
+      <source media="(min-width: 750px)" srcset="./icons/header-srgs.png">
+      <source media="(min-width: 250px)" srcset="./icons/header-srgs-2.png">
+      <img class="header-srgs" src="/assets/icons/header-srgs.png">
+    </picture>
+   <img  class="header-srgs"src="/assets/icons/srgs_temp.png">
+    <a class="profile-img-container" (click)="displayProfile=!displayProfile"><img class="profile-img" src="{{log.getData('picUrl')}}" *ngIf="log.getData('picUrl')"></a>
+    
+  </div>-->
+      <nav class="navbar navbar-default navbar-fixed-top header" >
+      <div class="">
+        <div class="navbar-header" id="toggle-header">
+          
+          <a class="navbar-brand" id="menu-toggle" style="cursor: pointer;float:right;padding-right: 0px;color:white"><i class="glyphicon glyphicon-menu-hamburger"></i></a>
+        </div>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+          <ul class="nav navbar-top-links navbar-right">
+             <!--<li class="brand">Cornerstone</li>-->
+             <li class="logo-list"><img src="/assets/icons/logo.png" class="logo"></li>
+             <li>
+               <a class="profile-img-container" (click)="displayProfile=!displayProfile"><img class="profile-img" src="{{log.getData('picUrl')}}" *ngIf="log.getData('picUrl')"></a>
+             </li>
+            
+             <!--/.dropdown -->
+          </ul>
+        </div>
+      </div>
+    </nav>
+<!-- header end-->
+  <div class="profile-card" id="profile-card" [hidden]="displayProfile" tabindex= '1' (blur)="displayProfile=true">
+    <div class="row">
+      <div class="col-sm-4 col-xs-4">
+        <img class="profile-card-pic" src="{{log.getData('picUrl')}}" *ngIf="log.getData('picUrl')">
+      </div>
+      <div class="col-sm-8 col-xs-8">
+        <div class="coloumn-middle">
+          <div class="align-middle">
+            <div class="row">
+              <div class="profile-card-name">{{log.getData('name')}}</div>
+            </div>
+            <div class="row">
+              <div class="profile-card-role">{{log.getData('role')}}</div>
+            </div>
+            <div class="row">
+              <div class="profile-card-email">
+                {{log.getData('email')}}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row profile-card-footer">
+      <div class="col-sm-6 col-xs-6">
+        <a [routerLink]="['/account']" class="btn btn-default" style="color: #333" (click) = "displayProfile=true">Account</a>
+      </div>
+      <div class="col-sm-6 col-xs-6" routerLinkActive="active" data-toggle="modal" data-target=".bs-example-modal-sm">
+        <a class="btn btn-default custom-buttons" routerLinkActive="active" style="color: #333">Logout</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sidebar -->
+  <div id="sidebar-wrapper">
+    <ul class="sidebar-nav">
+       <!--<li class="sidebar-header">
+         <a routerLink="/account"> <div class="profile-display">
+            <div class="accBgImage">
+              <div class="padding">
+              <img class="profile-img" src="{{log.getData('picUrl')}}" *ngIf="log.getData('picUrl')">
+              </div>
+              <div class="profile-name">
+                {{log.getData('name')}}
+              </div>
+            </div>
+          </div> </a>
+        </li>-->
+      <li class="sidebar-items" *ngIf="role=='admin'">
+       
+      </li>
+      <li *ngFor="let page of pages; let i=index" class="sidebar-items">
+        <a [routerLink]="[page.url]" routerLinkActive="active" (click)="getSelectedLink(i)">
+          <img class="sidebar-icon" src="{{page.icon}}"> <span class="page-title">{{page.title}}</span>
+          <i class="fa fa-chevron-right arrow" aria-hidden="true"></i>
+        </a>
+      </li>
+ 
+     <li class="sidebar-items">
+        <a [routerLink]="['/account']" routerLinkActive="active">
+          <img  class="sidebar-icon" src="/assets/icons/profile.png">  Account
+          <i class="fa fa-chevron-right arrow" aria-hidden="true"></i>          
+        </a>
+      </li>
+
+        <li class="sidebar-items" routerLinkActive="active" data-toggle="modal" data-target=".bs-example-modal-sm">
+        <a routerLinkActive="active">
+          <img class="sidebar-icon" src="http://icons.iconarchive.com/icons/custom-icon-design/flatastic-9/256/Logout-icon.png">          Logout
+          <i class="fa fa-chevron-right arrow" aria-hidden="true"></i>          
+        </a>
+      </li>  
+      <li class="sidebar-items" *ngIf="role=='admin'">
+        <a class="section">Add</a>
+      </li>
+
+      <li class="sidebar-items" *ngIf="role=='admin'">
+        <a [routerLink]="['/time-table']" routerLinkActive="active">
+          <img  class="sidebar-icon" src="/assets/icons/calendar.png">  Time Table
+          <i class="fa fa-chevron-right arrow" aria-hidden="true"></i>          
+        </a>
+      </li>
+
+      <li class="sidebar-items" *ngIf="role=='admin'">
+        <a [routerLink]="['/foodmenu']" routerLinkActive="active">
+          <img  class="sidebar-icon" src="/assets/icons/food.png">  Food Menu
+          <i class="fa fa-chevron-right arrow" aria-hidden="true"></i>          
+        </a>
+      </li>
+
+      <li class="sidebar-items" *ngIf="role=='admin'">
+        <a [routerLink]="['/add-student']" routerLinkActive="active">
+          <img  class="sidebar-icon" src="/assets/icons/student.png">  Student
+          <i class="fa fa-chevron-right arrow" aria-hidden="true"></i>          
+        </a>
+      </li>
+
+
+       <li class="sidebar-items" *ngIf="role=='admin'" style="padding-bottom: 55px;">
+        <a [routerLink]="['/add-employee']" routerLinkActive="active">
+          <img  class="sidebar-icon" src="/assets/icons/employee.png">  Employee
+          <i class="fa fa-chevron-right arrow" aria-hidden="true"></i>          
+        </a>
+      </li>   
+    </ul>
+  </div>
+    <button class="nav-btn" id="menu-toggle"><i class="glyphicon glyphicon-menu-hamburger"></i></button>
+  <div></div>
+  <!-- /#sidebar-wrapper -->
+  <!-- Page Content -->
+  <div id="page-content-wrapper">
+    <div style="display:none" GoogleChart></div>
+    <router-outlet></router-outlet>
+  </div>
+  <!-- /#page-content-wrapper -->
+</div>
+<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+  <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal">&times;</button> You will be logged out!
+    </div>
+    <div class="modal-footer">
+      <button [routerLink]="['/login']" (click)="logout()" data-dismiss="modal" class="btn btn-primary">Confirm</button>
+    </div>
+  </div>
+</div>

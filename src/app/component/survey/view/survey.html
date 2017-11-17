@@ -1,0 +1,89 @@
+<div class="panel panel-default" *ngIf="selectedSurvey">
+  <div class="panel-heading">{{selectedSurvey.title}}
+    <button type="button" class="close pull-right" aria-label="Close" (click)="_location.back();">
+    <span aria-hidden="true">&times; </span>
+  </button>
+  </div>
+  <div class="panel-body">
+    <div class="row text-center">
+      <loader [condition]="loader"></loader>
+    </div>
+    <div *ngIf="emptySurvey">
+      No information to display.
+    </div>
+    <div *ngIf="selectedSurvey">
+    <div  class="heading">
+      <h4>&nbsp;Details</h4>
+    </div>
+    <ul class="list-group">
+      <li class="list-group-item"><label>Description:</label> {{selectedSurvey.description}}</li>
+      <li class="list-group-item"><label>Survey By: </label> {{selectedSurvey.employeeName}}</li>
+      <li class="list-group-item"><label>Expired At: </label> {{selectedSurvey.expiredAt | date}}</li>
+      <li class="list-group-item" *ngIf="selectedSurvey.typeId==1"><label>Audience:</label> {{selectedSurvey.typeName}}</li>
+      <li class="list-group-item" *ngIf="selectedSurvey.typeId==2"><label>Audience: </label><span style="margin: auto 2px;" *ngFor="let a of selectedSurvey.standards">{{a}}</span></li>
+    </ul>
+
+    <div  class="heading">
+      <h4>&nbsp;Results</h4>
+    </div>
+    <div class="" *ngFor="let s of selectedSurvey.surveyQuestions, let i=index" style="background-color:#f2f7f6;margin-top:20px;padding: 0 20px;">
+        <div class="row">
+          <div class="col-sm-6 col-xs-6" >
+            <div class="question"><h4>{{i+1}}.&nbsp;{{s.questionText}}</h4></div>
+          </div>
+          <div class="col-sm-6 col-xs-6" style="margin-top:10px;">
+              <span class="badge pull-right" style="background-color: #f8d400;color:#3977a5">{{s.totalCount}} responses</span>
+              <span class="badge pull-right" style="margin: auto 5px;">{{s.questionTypeName}}</span>
+          </div>
+        </div>
+      <div *ngFor="let o of s.subOptions, let ii=index" style="">
+        <div class="col-xs-5"><div class="choice">{{o.name}}</div></div>
+        <span class="col-xs-7">
+        <div class="progress">
+          <div class="progress-bar progress-bar progress-bar-striped style{{ii}}" role="progressbar" [attr.aria-valuenow]="o.percent" aria-valuemin="10"
+            aria-valuemax="100" [style.width]="(o.percent/100)*100 + '%'">
+            <span style="color:black;"> {{o.count}}&nbsp;votes&nbsp;-&nbsp;{{o.percent}}%</span>
+          </div>
+        </div>
+        </span>
+      </div>
+      <hr class="style-line" style="width:100%">
+      <!--<ul class="" style="list-style-type:none;margin:0;padding:0;" >
+          <li>
+            <div class="progress pollProgress">
+              <span class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" [attr.aria-valuenow]="o.percent"
+                aria-valuemin="0" aria-valuemax="100" [style.width]="(o.percent/100)*100 + '%'">
+                       <span> {{o.name}} - {{o.percent}}% </span>
+              </span>
+            </div>
+          </li>
+        </ul>-->
+    </div>
+    <div>
+    </div>
+
+  </div>
+</div>
+  <div class="panel-footer">
+    <button type="button" class="btn btn-primary" (click)="_location.back()">Go Back</button>
+  </div>
+</div>
+
+<!--<div id="selectedSurvey" class="modal fade" role="dialog" *ngIf="selectedSurvey">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title"></h4>
+      </div>
+      <div class="modal-body">
+        
+        
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>-->

@@ -1,0 +1,353 @@
+<div class="message">
+  <div class="row component-body">
+
+  <!--Message Screen-->
+  <div class="col-sm-8 col-xs-8 message-area">
+
+    <div class="row text-center">
+      <loader [condition]="loader" class="centerLoader"></loader>
+    </div>
+    <div class="row text-center">
+      <loader [condition]="submitProgress" class="centerLoader"></loader>
+    </div>
+
+    <div class="row msg-nav">
+         <!-- <div class="navbar navbar-default msg-nav">  -->
+          <div class="row" *ngIf="selectedOldRecipient">
+            <div class="col-sm-8 col-xs-6">
+              <span class="recipient">{{recipientName}}</span>
+            </div>
+            <div class="col-sm-4 col-xs-6">
+              <button class="btn btn-default pull-right " data-target="#closeModal" data-toggle="modal" [disabled]="closed">
+                <span class="close-btn-text">Close</span>
+                <i class=" glyphicon glyphicon-remove close-btn"></i>                
+              </button>
+            </div>
+          </div>
+          <div class="row" *ngIf="!selectedOldRecipient">
+            New Message
+          </div>
+        <!-- </div> -->
+    </div> 
+
+
+  <div class="row">
+    <div class="chat-body" *ngIf="((selectedOldRecipient)&&(!loader))">
+      <div class="">
+      <!--Old Messages-->
+      <div *ngIf="emptyOldMessages">
+        No Messages
+      </div>
+      <!-- <div class="up-btn">   <button class="btn top-load" (click)="loadOldMessages()" [disabled]="(noMoreMessages|| emptyOldMessages)"><span class="glyphicon glyphicon-chevron-up"></span></button> </div> -->
+      
+      <div *ngIf="!emptyOldMessages" class="row">
+         <button class="btn top-load" (click)="loadOldMessages()" [disabled]="(noMoreMessages|| emptyOldMessages)"><span class="glyphicon glyphicon-chevron-up"></span></button> 
+
+        <div  class="msg-text" *ngFor="let m of selectedOldRecipient.slice().reverse()">
+          <div *ngIf="m.employeeName== currentUser">
+            <div class="myMsg">
+              <img [attr.src]="fileUrl + m.employeePicTimestamp" class="myImg" />
+              <div class="myText">
+                <span class="myText-style">
+              <span *ngIf="!m.fileName">{{m.message}}</span>
+                <span *ngIf="m.fileName"> <a [attr.href]="fileUrl + m.message"><img [attr.src]="fileUrl + m.message" class="message-img"></a> </span>
+                </span>
+              </div>
+            </div>
+            <div class="myMsgDate">
+              me: {{m.createdAt| date}}
+            </div>
+          </div>
+          <div *ngIf="m.employeeName!= currentUser">
+            <div class="msg">
+              <span *ngIf="m.parentPicTimestamp"><img [attr.src]="fileUrl + m.parentPicTimestamp"  class="img" /></span>
+              <span *ngIf="m.employeePicTimestamp"><img [attr.src]="fileUrl + m.employeePicTimestamp"  class="img" /></span>
+              <div class="text">
+                <span class="text-style">
+              <span *ngIf="!m.fileName">{{m.message}}</span>
+                <span *ngIf="m.fileName"> <a [attr.href]="fileUrl + m.message">{{m.fileName}}</a> </span>
+                </span>
+              </div>
+            </div>
+            <div class="msgDate">
+              <span *ngIf="m.employeeName!=null">{{m.employeeName}}</span>
+              <span *ngIf="m.parentName!=null">{{m.parentName}}</span>
+              <span>: {{m.createdAt| date}}</span>
+            </div>
+          </div>
+        </div>
+
+      <div><button class="btn bottom-load" (click)="loadNewMessages()" [disabled]="currentMessagePage === 1"><span class="glyphicon glyphicon-chevron-down" ></span></button>
+        
+        <!-- <div class="" *ngIf="file">
+          <form [formGroup]="pictureForm" (submit)="submitFormWithPicture()" class="picture-form">
+            <button type="button" (click)="file=null" class="upload-img">
+              <span >&times;</span>
+            </button>
+            <img src="#" id="img33" alt="efcsc" height="200px" width="200px">
+            <button type="submit" class="upload-btn"><span class="glyphicon glyphicon-circle-arrow-up"></span></button>
+          </form>
+
+        </div> -->
+        <div class="modal fade" id="getFileModal" tabindex="-1" role="dialog" *ngIf="file">
+          <div class="modal-dialog pic-modal" role="document">
+            <div class=" pic-modal-content">
+                <form [formGroup]="pictureForm">
+                    <button type="button" (click)="file=null" class="upload-dismiss" data-dismiss="modal">
+                      <span data-dismiss="modal">&times;</span>
+                    </button>
+                    <img src="#" id="img33" alt="efcsc" height="200px" width="200px">
+                    <button type="button" (click)="submitFormWithPicture() "class="upload-btn" data-dismiss="modal"><span class="glyphicon glyphicon-circle-arrow-up"></span></button>
+                  </form>
+            </div><!-- /.modal-content -->
+          </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+
+      </div>
+
+    <div class="row">
+      <div class="type-form">
+        <div class="closed-cmt" *ngIf="closed">
+          <span>This conversation has been closed.</span>
+        </div>
+        <form [formGroup]="messageForm" *ngIf="!closed" (submit)="submitMessageForm()" class="messageform">
+          <span class="input-msg">
+            <input type="text" placeholder="Type a message..." formControlName="message" class="form-control custom-text" >
+          </span>
+          <span>
+            <label for="exampleInputFile" class="exampleInputFile"><span class="glyphicon glyphicon-paperclip custom-attach" ></span></label>            
+              <input type="file" accept="images/*"class="form-control-file" id="exampleInputFile" aria-describedby="fileHelp" (change)="getFile($event)"
+              [(ngModel)]="fileopen" [ngModelOptions]="{standalone: true}" style="display:none;">
+            
+            <!--<span><button (click)="initForm()" class="custom-close">
+            &times;
+          </button></span>-->
+
+            <button type="submit" class="send" [disabled]="messageForm.invalid" ><span class="glyphicon glyphicon-share"> </span></button>
+          </span>
+        </form>
+      </div>
+      </div>
+      </div>
+    </div>
+  </div>
+
+    <!--New Message-->
+    <div class="new-chat-body" *ngIf="(!selectedOldRecipient)&&(!loader)">
+      <div class="message-form">
+      <form [formGroup]="newMessageForm" *ngIf="newMsg">
+        <div class="row text-center">
+          <loader [condition]="submitProgress" class="centerLoader"></loader>
+        </div>
+        <div class="form-group">
+          <label for="sel1">Select Standard:</label>
+          <select class="form-control" id="sel1"  [(ngModel)]="standard" [ngModelOptions]="{standalone: true}" (ngModelChange)="onStandard($event)"> 
+                           
+            <option *ngIf="standardsArray == null" disabled>No standards are added. Please try again later</option>
+            <option selected="true" disabled="true" value="-1">Select Standard</option>
+              <option *ngFor="let s of standardsArray"  [value]="s.id">{{s.name}}</option>
+            </select>
+
+            <loader [condition]="standardLoader" class="dropdownLoader"></loader>
+        </div>
+
+        <div class="form-group" *ngIf="students">
+          <label for="sel1">Select Student:</label>
+          <select class="form-control" id="sel1" [(ngModel)]="selectedStudent" [ngModelOptions]="{standalone: true}">
+                          
+            <option *ngIf="students == null" disabled>No students are added. Please try again later</option>
+              <option *ngFor="let s of students" [attr.disabled] = " s.id == -1 ? true : null" [ngValue]="s">{{s.name}}</option>
+            </select>
+            <loader [condition]="studentLoader" class="dropdownLoader"></loader>
+        </div>
+
+        <div class="form-group" *ngIf="categories">
+          <label for="sel1">Select Category:</label>
+          <select class="form-control" formControlName="categoryId" [(ngModel)]="selcate" id="sel1">
+                         
+             <option *ngIf="categories == null"  disabled>No categories are added. Please try again later</option>
+              <option *ngFor="let s of categories" [attr.disabled] = " s.id == -1 ? true : null" [value]="s.id">{{s.name}}</option>
+            </select>
+            <loader [condition]="categoryLoader" class="dropdownLoader"></loader>            
+        </div>
+
+        <div class="form-group">
+          <label for="usr">Title:</label>
+          <span class="badge">
+          <span>{{50 - newMessageForm.value.title.length}}</span>
+          </span>
+          <input type="text" class="form-control" maxlength='50' placeholder="Type a title..." formControlName="title" id="usr">
+        </div>
+
+        <div class="">
+          <div class="form-group">
+            <label for="comment">Message:</label>
+            <span class="badge">
+          <span>{{2000 - newMessageForm.value.message.length}}</span>
+            </span>
+            <!--<input type="textarea" class="form-control" formControlName="message" rows="5" id="comment">-->
+            <br>
+            <input id="comment" placeholder="Type a message..." maxlength='2000' formControlName="message" >
+            <!--
+            <textarea *ngIf="!isMessage" rows="3" id="comment" placeholder="Type a message..." style="width:100%;display:block;border:1px solid rgb(204, 204, 204);border-radius: 4px;padding: 6px 12px; font-size:14px; color: #555; background-color:white;" [value]="file.name" > </textarea>-->
+          </div>
+
+          <!--<div class="">
+            <label for="exampleInputFile" class="exampleInputFile"><span class="glyphicon glyphicon-paperclip custom-attach-new"></span></label>
+            <input type="file" class="form-control-file" id="exampleInputFile" aria-describedby="fileHelp" style="display:none;" [ngModelOptions]="{standalone: true}" (change)="getFile2($event)" [(ngModel)]="fileName">
+          </div>-->
+        </div>
+
+        <button type="submit" [disabled]="newMessageForm.invalid" class="btn btn-success pull-right submit-msg" (click)="submitNewMessage()">Send</button>
+
+
+      </form>
+      </div>
+    </div>
+  </div>
+  </div>
+  <!--Old Messages List-->
+  <div class="col-sm-4 col-xs-4 message-sidebar">
+
+    <!--Fixed Nav Bar (Search) -->
+
+    <div class="navbar navbar-default">
+      <div class="">
+        <input class="form-control" type="search" placeholder="Search Messages..." (keyup)="searchMessages($event)" id="search">
+        <span class="pageChange">
+        <button class="arrow" (click)="previousPage()" [disabled]="currentPage === 1"><span class="glyphicon glyphicon-chevron-left"></span></button>
+        <span>{{currentPage}}</span>
+        <button class="arrow" (click)="nextPage()" [disabled]="noMore || emptyOldRecipient"><span class="glyphicon glyphicon-chevron-right"></span></button>
+        </span>
+        <button class="btn new-msg pull-right" (click)="newMessage()">
+       <span class="glyphicon glyphicon-edit edit-custom" > </span>
+       </button>
+      </div>
+    </div>
+
+    <!--List-->
+
+    <ul class="list-group msg-list">
+      <li style="margin-top:-20px"><loader [condition]="loader1" class="centerLoader" style="left:45%"></loader></li>
+      <li class="list-group-item" *ngIf="emptyOldRecipient">No Message have been added yet.</li>
+      <li class="list-group-item" *ngIf="emptySearchResult">No Data to display.</li>
+      <li [ngClass]="{'list-group-item': true, 'selectednav': (selectedIndex === i) }" *ngFor="let r of oldMessageRecipients,let i = index;"
+        (click)="selectOldRecipient(r,i)">
+        <ul style="list-style:none;padding: 0;">
+          <li class="overflowStyle">
+            <span class="badge pull-right" style="margin-left:1%;background: #ea212e;" *ngIf="r.isClosed">Closed</span>
+            <span class="badge pull-right" [style.background]="r.categoryColor">{{r.categoryName}}</span>
+            <b>{{r.title}}</b>
+          </li>
+          <li class="overflowStyle">
+            <i *ngIf="r.againstParentName!=null" style="text-indent:2%;margin:0">to {{r.againstParentName}}</i>
+            <i *ngIf="r.againstParentName==null" style="text-indent:2%;margin:0">by {{r.firstMessage.parentName}}</i>
+          </li>
+          <li class="overflowStyle desc">
+            {{r.firstMessage.message}}
+          </li>
+          <li>
+            <small><i class="fa fa-calendar" style="margin:2%" aria-hidden="true"></i>Created On:&nbsp;{{r.firstMessage.createdAt | date: "dd/MM/yy"}}</small>
+            <small *ngIf="r.isClosed"> Closed On:&nbsp;{{r.closedOn | date: "dd/MM/yy"}}</small>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+
+<div class="modal fade" id="closeModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="exampleModalLabel">Close Conversation</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Are you sure you want to close this conversation?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="closeConversation()">Close Conversation</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Discard</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="submitModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="exampleModalLabel">Message Sent</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Your Message has been sent.
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="this.selectOldRecipient(this.oldMessageRecipients[0], 0)">Close</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="newMessage()">Send More</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="closeConfirmModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="exampleModalLabel">Conversation Closed</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        This conversation has been successfully closed.
+      </div>
+      <div class="modal-footer">
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="noMessageModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="exampleModalLabel">No More Messages</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        No More Messages
+      </div>
+      <div class="modal-footer">
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="errorModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <span> Invalid Input</span>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <span>Please choose an image to upload</span>
+      </div>
+      <div class="modal-footer">
+
+      </div>
+    </div>
+  </div>
+</div>
+  </div>

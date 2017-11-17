@@ -1,0 +1,92 @@
+<div class="tab-pane" >
+  <div class="panel panel-default">
+    <div class="panel-body" id="accordion">
+      <div class="row text-center">
+        <loader [condition]="loader"></loader>
+      </div>
+      <div style="margin-top: 2%;padding-top: 1%;">
+      <div  *ngIf="!EmptyComplaints">
+        <div class="card" *ngFor="let c of complaints; let i = index;">
+          <div class="row">
+            <span class="glyphicon glyphicon-resize-full expand" data-toggle="modal" (click)="seletToExpand(c)" data-target="#myModal-card"
+              style="margin-bottom:10px;"></span>
+          </div>
+          <div class="row">
+            <img class="image" [attr.src]="fileUrl + c.studentPicUrl">
+          </div>
+          <div class="row">
+            <div class="name">
+              {{c.studentName}}
+            </div>
+          </div>
+          <div class="row">
+            <div class="class">{{c.standardName}}</div>
+          </div>
+          <hr class="style-line">
+          <div class="row" style="text-align:center">
+            <div class="title">
+              {{c.title}}
+            </div>
+          </div>
+          <div class="row description">{{c.description}}</div>
+        </div>
+      </div>
+    </div>
+    <div class="row col-lg-12" style="text-align: center" *ngIf="(EmptyComplaints)&&(!loader)&&(currentPage==1)"><b>No Appreciations are added to the view.</b></div>
+          <div class="row col-lg-12" style="text-align: center" *ngIf="(EmptyComplaints)&&(!loader)&&(currentPage!=1)"><b>No more Appreciations are added to the view.</b></div>
+    </div>
+
+
+    <div class="panel-footer">
+      <!--<button (click)="previousComplaint()" [disabled]="currentPage === 1" type="button" class="btn btn-primary">Previous</button>-->
+      <div class="text-center"><button (click)="nextComplaint()" type="button" [disabled]="EmptyComplaints || noMore" class="btn btn-primary">Load More</button></div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="myModal-card" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content" *ngIf="selectedComplaint">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="gridSystemModalLabel">{{selectedComplaint.title}}</h4>
+      </div>
+      <div class="modal-body ">
+        <div class="card-modal">
+
+          <div class="row">
+            <div class="modal-heading" style="margin-top:-14px">
+              <img class="modal-image" [attr.src]="fileUrl + selectedComplaint.studentPicUrl">
+            </div>
+          </div>
+          <div class="row">
+            <div class="modal-name">{{selectedComplaint.studentName}}
+              <div class="modal-class">{{selectedComplaint.standardName}}</div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="modal-description">
+              <span class="white-space"> {{selectedComplaint.description}}</span>
+            </div>
+          </div>
+          <hr class="style-line">
+          <div class="row">
+            <div class="col-sm-3">
+              <i class="glyphicon glyphicon-calendar calendar-custom pull-right"></i>
+            </div>
+            <div class="col-sm-9">
+              <label class="heading">Created At</label>
+              <div class="result">{{selectedComplaint.createdAt | date}}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary modal-btn" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->

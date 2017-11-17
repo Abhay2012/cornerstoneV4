@@ -1,0 +1,128 @@
+.picture img {
+   
+    border-radius: 100%;
+    border: 3px solid white;
+
+    margin-left: auto;
+    margin-right: auto;   
+}
+
+.row{
+    margin: 0 !important;
+}
+.picture:hover {
+    border-radius: 0%;
+    opacity: 0.5;
+}
+.profile{
+    padding: 0 !important;
+    background-color: white;
+    margin-top:10%;
+    padding: 2%;
+    text-align: center;
+    font-size: 100%;
+    box-shadow: 0px 8px 11px #7b7a7a, -2px 4px 5px #a59797, 10px 8px 15px #989898;
+}
+.profile-picture{
+    width: 150px;
+    height:150px;
+    border-radius: 100%;
+    /* margin-top: -50%; */
+    border: 3px solid white;
+    box-shadow: 0px 9px 16px grey;
+    /* display: block; */
+    margin: 10px auto;
+}
+
+.profile-picture:hover{
+    border-radius: 100%;
+    opacity: 0.5;
+}
+
+.name{
+    color: white;
+    margin-bottom: 10px;
+}
+hr.style-line {
+ border: 0; 
+  height: 1px; 
+  background-image: -webkit-linear-gradient(left, #f0f0f0, #8c8b8b, #f0f0f0);
+  background-image: -moz-linear-gradient(left, #f0f0f0, #8c8b8b, #f0f0f0);
+  background-image: -ms-linear-gradient(left, #f0f0f0, #8c8b8b, #f0f0f0);
+  background-image: -o-linear-gradient(left, #f0f0f0, #8c8b8b, #f0f0f0); 
+}
+/*
+.btn-success{
+    width: 40%;
+}*/
+.name{
+    font-size: 20px;
+    margin-top: 10px;
+}
+.role{
+    color: gray;
+}
+
+/* .img_desc
+{
+    visibility: hidden;
+} */
+
+/* .picture:hover .img_desc,
+.picture:hover ~ .img_desc {
+    visibility: visible;
+    position: absolute;
+    left: 15%;
+    border-radius: 10%;
+    color: white;
+    background: rgba(0, 0, 0, 0.7);
+    margin-bottom: 5%;
+} */
+
+@media(max-width:408px){
+    .profile,.name{
+        font-size: 80%;
+    }
+}
+
+.img-container{
+    background-image: url(/assets/icons/profile_background.svg) , -webkit-linear-gradient(#bdbdbd, #303342);
+    background-image: url(/assets/icons/profile_background.svg) , -moz-linear-gradient(#bdbdbd, #303342);
+    background-image: url(/assets/icons/profile_background.svg) , -o-linear-gradient(#bdbdbd, #303342);
+    background-image: url(/assets/icons/profile_background.svg) , linear-gradient(#bdbdbd, #303342);
+    background-repeat: no-repeat !important;
+    background-size: cover;
+}
+
+.fingerprint,.role{
+    width: 44px;
+    /* height: 28px; */
+}
+
+.lock,.email{
+    font-size: 32px;
+}
+
+.profile-row{
+    padding-top: 10px;
+}
+
+.edit{
+        float: right;
+    font-size: 19px;
+    margin-top: -20px;
+    cursor: pointer;
+}
+
+.info{
+    font-size: 18px;
+}
+
+.edit-img{
+    font-size: 32px;
+    top: -32px;
+}
+
+.editpassForm{
+    padding: 15px;
+}

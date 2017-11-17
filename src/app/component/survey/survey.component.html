@@ -1,0 +1,15 @@
+<div class="survey">
+  <!--<h1>Survey
+    <button type="button" class="btn btn-success btn-circle" [routerLink]="['/add-survey']">
+    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+  </button>
+  </h1>-->
+
+  <ul class="nav nav-tabs">
+    <li routerLinkActive="active"><a [routerLink]="['/survey/current-survey']">CURRENT</a></li>
+    <li routerLinkActive="active"><a [routerLink]="['/survey/closed-survey']">CLOSED</a></li>
+  </ul>
+  <div class="tab-content">
+    <router-outlet></router-outlet>
+  </div>
+</div>

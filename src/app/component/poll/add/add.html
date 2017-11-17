@@ -1,0 +1,162 @@
+<div class="panel panel-default">
+
+  <div class="panel-heading">Add Poll <button type="button" class="close pull-right" aria-label="Close" (click)="_location.back();">
+    <span aria-hidden="true">&times; </span>
+  </button>
+  </div>
+
+  <div class="panel-body">
+    <div class="row text-center">
+      <loader [condition]="submitProgress" class="centerLoader"></loader>
+    </div>
+
+    <form [formGroup]="addPollForm" (ngSubmit)="submitPoll(addPollForm.value)" >
+
+      <div class="form-group">
+        <label for="title">Question</label>
+        <span class="badge">{{50 - addPollForm.value.question.length}}</span>
+        <input type="text" class="form-control" id="title" formControlName="question" placeholder="Enter Question..." maxlength="50">
+      </div>
+
+      <div [hidden]="((addPollForm.controls.question.untouched) || (addPollForm.controls.question.pristine) || (addPollForm.controls.question.valid))"
+        class="alert alert-warning">
+        This field is required.
+      </div>
+
+      <div class="form-group" >
+        <label for="pollFor">Audience</label>
+        <select class="form-control" id="pollFor" formControlName="typeId" (ngModelChange)="onTypeId($event)">
+        <option selected="true" disabled="true" value="">Select Audience</option>
+
+      <option *ngFor="let a of pollType" [value]="a.id" [attr.disabled] = " a.id == -1 ? true : null" > {{a.name}}</option>
+      <loader [condition]="infoLoader" class="dropdownLoader"></loader>
+    </select>
+      </div>
+
+      <div class="form-group" *ngIf="addPollForm.value.typeId==2">
+        <label for="standards">Select Standard</label>
+            <button type="button" style="text-align: left" class="form-control" *ngIf="standards != null" (click)="dropdown ? dropdown = false : dropdown = true ">{{buttonlabel}} </button>
+            <button type="button" class="form-control" *ngIf="standards == null">No Standards are added to the View. Try again later.</button>
+            <!-- <span *ngIf="standards != null" class="glyphicon glyphicon-triangle-bottom" style="margin-left: -4%;
+              font-size: 11px;
+              padding: 0;
+              vertical-align: super;"></span> -->
+
+            <ul class="list" id="standardIds" *ngIf="dropdown">
+
+              <li style="    margin-left: -34px;     /* text-indent: -18px; */ " *ngFor="let a of standards">
+                <label>
+                  <input type="checkbox" class="checkbox" [checked]="true" [ngModel]="check(a)" (ngModelChange)="selectStandards(a,$event)" [ngModelOptions]="{standalone: true}" [value]="a.id">
+                  {{a.name}}
+                </label>
+              </li>
+            </ul>
+        <!-- <select class="form-control" id="standardIds" name="standardIds" [(ngModel)]="selectedStandard" [ngModelOptions]="{standalone: true}"
+          (ngModelChange)="onStandards($event)" multiple required>
+      <option *ngFor="let s of standards" [value]="s.id"> {{s.name}}</option>
+      
+    </select>
+
+ -->
+       <loader [condition]="standardLoader" class="dropdownLoader"></loader>       
+    </div>
+
+      <div class="form-group">
+        <label for="date">Due Date</label>
+        <div>
+          <input class="form-control" type="date" formControlName="expiredAt" id="date" (change)="onDueDate($event)">
+        </div>
+      </div>
+
+      <div class="form-group" >
+        <label for="optionTypeId">Select Option Type</label>
+        <select class="form-control" id="optionTypeId" formControlName="optionTypeId" >
+        <option selected="true" disabled="true" value="">Select option type</option>
+        <option *ngFor="let s of pollOptionType" [attr.disabled] = " s.id == -1 ? true : null" [value]="s.id"> {{s.name}}</option>
+      <loader [condition]="infoLoader" class="dropdownLoader"></loader>
+    </select>
+      </div>
+
+      <div formArrayName="subOptions">
+
+        <label for="choice">Choices</label>
+
+        <div class="row" *ngFor="let ch of addPollForm.controls.subOptions['controls']; let i=index;" [formGroupName]="i">
+
+          <div class="form-group col-sm-9 col-xs-9" >
+            <input type="text" class="form-control" id="choice" formControlName="choice" placeholder="Enter choice {{i +1}}..." maxlength="40">
+
+            <div class="alert alert-warning" *ngIf="(addPollForm.controls.subOptions.length<2)">
+              Minimum two options are required.
+            </div>
+          </div>
+
+          <div class="col-sm-1 col-xs-1">
+            <span class="badge">{{40 - addPollForm.value.subOptions[i].choice.length}}</span>
+          </div>
+
+          <div class="col-sm-2 col-xs-2">
+            <button type="button" class="btn btn-primary active" [disabled]="addPollForm.controls.subOptions.length<=2" (click)="removeOptions(addPollForm,i)">
+                    <span class="glyphicon glyphicon-remove"></span>
+                </button>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="pollInfo">
+        <div class="alert alert-warning" *ngIf="(addPollForm.controls.subOptions.length==pollInfo.optionLimit)">
+          Maximum {{pollInfo.optionLimit}} options are allowed.
+        </div>
+      </div>
+
+      <div *ngIf="addPollForm.controls.subOptions['controls'].length>=2">
+        <div [hidden]="((addPollForm.controls.subOptions.untouched) || (addPollForm.controls.subOptions.pristine) || (addPollForm.controls.subOptions.valid))"
+          class="alert alert-warning">
+          These fields are required.
+        </div>
+      </div>
+      <button type="submit" class="btn btn-success" [disabled]="!addPollForm.valid" (click)="loader=true">Submit</button>
+
+      <button type="button" class="btn btn-primary" [disabled]="addPollForm.controls.subOptions['controls'].length == 5" (click)=addOptions(addPollForm)>Add Options</button>
+    </form>
+  </div>
+</div>
+
+<div class="modal fade" id="dateErrorModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="exampleModalLabel">Invalid Date</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Choose a valid date.
+      </div>
+      <div class="modal-footer">
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade" id="submitModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="exampleModalLabel">Poll Added</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        You have successfully added a new Poll.
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" [routerLink]="['/poll/current-poll']">Close</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal" (click) = "setDefault()">Add More</button>
+      </div>
+    </div>
+  </div>
+</div>

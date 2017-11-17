@@ -1,0 +1,56 @@
+.calendar-custom{
+    background: white;
+    padding: 4%;
+    /* border-radius: 20px; */
+    min-width: 343px;
+    /* min-height: 450px; */
+}
+
+.glyphicon-time:before{
+    padding-right: 10px;
+    font-size: 20px;
+}
+
+.description,.location,.planner-type{
+    display: block;
+    margin: auto;
+}
+
+/*.dots:before{
+    padding-right: 0px;
+}
+
+.glyphicon:before{
+    font-size: 20px;
+    padding-right: 10px
+}
+*/
+.modal{
+    overflow-y: scroll;
+}
+
+input[type=file]{ 
+        color:transparent;
+}
+
+.file-list-items{
+  list-style-type: none;
+}
+
+.file-list{
+  padding-left: 0px;
+}
+
+.image1{
+  margin-left: auto;
+    margin-right: auto;
+    display: block;
+    width: 275px;
+    height: 180px;
+    border-style: solid;
+}
+.sideimage{
+    width: 161px;
+    height: 180px;
+    filter:blur(1px);  
+}

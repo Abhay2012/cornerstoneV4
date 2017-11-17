@@ -1,0 +1,297 @@
+<div class="calendar-custom">
+    <angular2-fullcalendar [options]="menuOptions" id="menu"></angular2-fullcalendar>
+    <div class="row text-center">
+        <loader [condition]="loader" class="centerLoader"></loader>    
+    </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="addItemModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Add a food item</h4>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="addItem">
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" class="form-control" id="name" (keyup)="notValid()" name="name" formControlName="name" placeholder="Enter name of food item here">
+                <div class="alert alert-warning" *ngIf="duplicate">* Item Already Exist</div>
+                <div [hidden]="addItem.controls.name.valid || addItem.controls.name.pristine || addItem.controls.name.untouched" class="alert alert-warning" >This field is required</div>
+              </div>
+
+            <div class="form-group">
+                <label for="type">Type</label>
+                <select class="form-control" formControlName="type" name="type" id="type">
+                    <option value='Snack'>
+                      Snack
+                    </option>
+                    <option value="Lunch">
+                      lunch
+                    </option>
+                </select>
+<!--                 <input type="text" class="form-control" id="type" name="type" formControlName="type" placeholder="En ter type of food item here">-->
+                <div [hidden]="addItem.controls.type.valid || addItem.controls.type.pristine || addItem.controls.type.untouched" class="alert alert-warning" >This field is required</div>
+              </div>
+
+            <div class="form-group">
+                <label for="url">Url</label>
+                <input type="text" class="form-control" id="url" name="url" formControlName="url" placeholder="Enter url of food item here">
+                <div [hidden]="addItem.controls.url.valid || addItem.controls.url.pristine || addItem.controls.url.untouched" class="alert alert-warning" >This field is required</div>
+              </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" (click)="postItem()" 
+        [disabled]=" addItem.invalid || duplicate " >Submit</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- <div class="modal fade" id="addMenuModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Add a food menu</h4>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="addMenu">
+            <div class="form-group">
+                <label for="foodId">Food Item</label>
+                <select  formControlName="foodId" name="foodId" id="foodId" class="form-control" (ngModelChange)="func()">
+                <option disabled="true" selected="true" value="">Select Food Item</option>
+                  <option *ngFor="let item of foodItems"  [value]="item.id">{{item.name}}</option>
+                </select>
+                <loader [condition]="itemLoader" class="dropdownLoader"></loader>
+              </div>
+
+            <div class="form-group">
+                <label for="day">Day</label>
+                <input type="date" class="form-control" id="day" name="day" formControlName="day" (change)="onDueDate($event)">
+            </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" (click)="postMenu()" data-dismiss="modal" [disabled]="addMenu.invalid">Submit</button>
+      </div>
+    </div>
+  </div>
+</div> -->
+
+
+<div class="modal fade" id="deleteItemModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Delete a food menu</h4>
+      </div>
+      <div class="modal-body" style="overflow: hidden;padding:7px;">
+        <form>
+            <div class="form-group" style="overflow: hidden">
+                <label for="foodId">Food Items</label><br>
+
+                <input class="form-control" *ngIf="foodItems1.length!=0" (keyup)="searchD($event)" type="text" placeholder="Search Item" name="">
+
+              <span style="float:left; top : 45px;" *ngIf="startMenuD!=0" class="glyphicon glyphicon-menu-left" (click)="moveLeftD(startMenuD, endMenuD)"></span>
+
+              <span style="float:left;overflow: hidden " *ngFor="let item of foodItems1; let i = index ">
+                <img [title]="item.name"  class="food-pic" [src]="item.url" [alt]="item.name" draggable="true"  *ngIf="i>=startMenuD && i<=endMenuD" />
+                <span style="top:-30px" (click)="removeFoodItem(item)" class="glyphicon glyphicon-remove" *ngIf="i>=startMenuD && i<=endMenuD"></span><br>
+                <div style="display:inline-block;width:100px;text-align:center;" *ngIf="i>=startMenuD && i<=endMenuD" >{{item.name}}</div>
+              </span>
+
+              <span style="float:left; top :45px; " *ngIf="endMenuD<(foodItems1.length - 1)" class="glyphicon glyphicon-menu-right" (click)="moveRightD(startMenuD, endMenuD)"></span>
+            </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal" [disabled]="addMenu.invalid">Done</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Are You Sure?</h4>
+      </div>
+      <div class="modal-footer" style="margin-top:0px;">
+        <button type="button" class="btn btn-primary" (click)="sureOrNot( true )" data-dismiss="modal" >Confirm</button>
+        <button type="button" class="btn btn-primary" (click)="sureOrNot( false )" data-dismiss="modal" >Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="addMenuModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="empty()"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Add a food menu</h4>
+      </div>
+      <div class="modal-body">
+
+
+
+      <br>
+        <form [formGroup]="addMenu">
+            <div class="form-group">
+            <div style="overflow:hidden">
+              
+            <div style="overflow:hidden">  
+              Snacks : 
+              <br>
+
+              <input class="form-control" (keyup)="searchS($event)" type="text" placeholder="Search Item" name="">
+              <br>
+              <div style="overflow: hidden">
+                <span style="float:left;top:45px" *ngIf="startMenuS!=0" class="glyphicon glyphicon-menu-left" (click)="moveLeftS(startMenuS, endMenuS)"></span>
+                <span style="float:left;overflow: hidden " *ngFor=" let item of foodItemsS1; let i = index ">
+                  
+                  <img (dragstart)="drag($event,item.name)" *ngIf=" item.type=='Snack'  && i>=startMenuS && i<=endMenuS" [title]="item.name" class="food-pic" [src]="item.url" [alt]="item.name" draggable="true" /><br>
+                  <div style="display:inline-block;width:100px;text-align:center; " *ngIf=" item.type=='Snacks' && i>=startMenuS && i<=endMenuS" >{{item.name}}</div>
+                  
+                </span>
+                <span style="float:right;top:45px"  class="glyphicon glyphicon-menu-right" (click)="moveRightS(startMenuS, endMenuS)" *ngIf= " (foodItemsS1.length - 1) > endMenuS"></span>
+                </div>
+                <br>
+
+                <div *ngIf="foodItemsS1.length!=0" (drop)="drop($event)" (dragover)="allowDrop($event)" class="snack">
+                    <ul class="list-group" style="margin:auto;padding-left: 5px; overflow: auto"> 
+                      <span *ngFor="let i of snackslist ">
+                      
+                      <li class="list-group-items food-list" *ngIf="snackslist.length > 0">{{i}} <span *ngIf="snackslist[0]!='Drag Items Here for Snacks'" class="glyphicon glyphicon-remove" (click)="removeItem(i)"></span></li>
+                      </span>
+                     </ul>
+                    <!-- <textarea (drop)="drop($event)" style="width:100%;height:100%;" placeholder="Snacks" [value]="snackslist"></textarea>           -->
+                  </div>
+                  <div *ngIf="foodItemsS1.length==0">
+                  No Item Present Add Some :  
+
+                  <button class="btn btn-primary" (click)="addItemFunc()">Add Food Item</button>
+                </div>
+            </div>  
+              <br>
+            <div>  
+                Lunch : 
+              <br>
+
+              <input  class="form-control" (keyup)="searchL($event)" type="text" placeholder="Search Item" name="">
+
+              <br>
+                <span style="float:left;top:45px" *ngIf="startMenuL!=0" class="glyphicon glyphicon-menu-left" (click)="moveLeftL(startMenuL, endMenuL)"></span>
+                <span style="float:left;overflow: hidden " *ngFor=" let item of foodItemsL1; let i = index ">
+                  
+                  <img (dragstart)="drag($event,item.name)" *ngIf=" item.type=='Lunch' && i>=startMenuL && i<=endMenuL" [title]="item.name" class="food-pic" [src]="item.url" [alt]="item.name" draggable="true" /><br>
+                  <div style="display:inline-block;width:100px;text-align:center; " *ngIf=" item.type=='Lunch' && i>=startMenuL && i<=endMenuL" >{{item.name}}</div>
+                  
+                </span>
+                <span style="float:right;top:45px" class="glyphicon glyphicon-menu-right" (click)="moveRightL(startMenuL, endMenuL)" *ngIf= " foodItemsL1.length - 1 > endMenuL"></span>
+            </div>    
+              </div>
+                <br>
+                <div style="display:block;overflow: hidden">
+                  
+                  <div *ngIf="foodItemsL1.length!=0" (drop)="droplunch($event)" (dragover)="allowDrop($event)" class="lunch">
+                    <ul class="list-group" style="padding-left: 5px; overflow: auto"> 
+                      <span *ngFor=" let i of lunchlist ">
+                      
+                      <li class="list-group-items food-list" *ngIf="lunchlist.length > 0">{{i}} <span *ngIf="lunchlist[0]!='Drag Items Here for Lunch'" class="glyphicon glyphicon-remove" (click)="removeItemlunch(i)"></span></li>
+                      </span>
+                     </ul>
+                  </div>
+                </div>
+
+                <div *ngIf="foodItemsL1.length==0">
+                  No Item Present Add Some : 
+
+                  <button class="btn btn-primary" (click)="addItemFunc()">Add Food Item</button>
+                </div>
+                <br>
+                <!-- <label for="foodId">Food Item</label>
+                <select  formControlName="foodId" name="foodId" id="foodId" class="form-control" (ngModelChange)="func()">
+                <option disabled="true" selected="true" value="">Select Food Item</option>
+                  <option *ngFor="let item of foodItems"  [value]="item.id">{{item.name}}</option>
+                </select> -->
+
+                <loader [condition]="itemLoader" class="dropdownLoader"></loader>
+              </div>
+
+            <div class="form-group">
+                <label for="day">Day</label>
+                <input type="date" class="form-control" id="day" name="day" formControlName="day" (change)="onDueDate($event)">
+            </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" (click)="postMenu()" data-dismiss="modal" [disabled]=" addMenu.invalid && emptyL || emptyS ">Submit</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade" id="messageModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">{{heading}}</h4>
+      </div>
+      <div class="modal-body">
+        {{message}}
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="clickModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" *ngIf="selectedMenu">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">{{selectedMenu.title}}</h4>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+            <div>
+              <img src="{{selectedMenu.foodPicUrl}}" class="food-pic">
+            </div>
+        </div>
+        <hr class="style-line">
+        <div class="row">
+          <div class="col-sm-2">
+            <i class="glyphicon glyphicon-list pull-right"></i>
+          </div>
+          <div class="col-sm-10">
+            <label>Food type</label>
+            <div class="url">{{selectedMenu.foodType}}</div>
+          </div>
+        </div>
+        <hr class="style-line">
+        
+        <div class="row">
+          <div class="col-sm-2">
+            <i class="glyphicon glyphicon-calendar pull-right " ></i>
+          </div>
+          <div class="col-sm-10">
+            <label>Day</label>
+            <div class="day">{{selectedMenu.start| date}}</div>
+          </div>
+        </div>
+
+
+      </div>
+    </div>
+  </div>
+</div>

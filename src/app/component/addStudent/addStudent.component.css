@@ -1,0 +1,17 @@
+h1{
+  font-family: 'Inconsolata';
+  font-weight: bold;
+  letter-spacing: 0.1em;
+}
+.student > ul{
+  width: 100%;  
+}
+.student > ul > li{
+  width:50%;
+}
+
+.student > ul>li.active>a, .student > ul>li.active>a:focus, .student > ul>li.active>a:hover {
+    color: #f8f8f8;
+    cursor: pointer;
+    background-color: #337ab7;
+}

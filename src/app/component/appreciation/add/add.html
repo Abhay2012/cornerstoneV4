@@ -1,0 +1,91 @@
+<div class="panel panel-default">
+  <!-- Default panel contents -->
+  <div class="panel-heading">Create New Appreciation
+    <button type="button" class="close pull-right" aria-label="Close" (click)="_location.back();">
+      <span aria-hidden="true">&times; </span>
+    </button>
+  </div>
+  <div class="panel-body">
+    <!-- <div class="row text-center">
+      <loader [condition]="loader"></loader>
+    </div> -->
+    <form name="appreciation" [formGroup]="appreciation" (ngSubmit)="submitAppreciation()" novalidate>
+      <div class="row text-center">
+        <loader class="centerLoader" [condition]="submitProgress"></loader>
+      </div>
+      <div class="form-group">
+        <label for="standardId">Select Standard</label>
+          <select class="form-control" id="standardId" name="standardId"(ngModelChange)="getStudents($event)" [(ngModel)]="standardId"
+          [ngModelOptions]="{standalone: true}" >
+
+          <option disabled *ngIf="emptyStandards">No standards are added. Try again later</option>
+          <option selected="true" disabled="true" value=''>Select Standard</option>
+
+          <option  *ngFor="let a of standards"  
+           [value]="a.id"> {{a.name}}</option>
+        </select>
+      <loader [condition]="loader" class="dropdownLoader"></loader>        
+      </div>
+      <div class="form-group" *ngIf="standardId && standardId >= 0 ">
+        <label for="studentId">Student Name</label>
+<!--         <select class="form-control" formControlName="studentId"  name="studentId">
+          
+          <option selected="true" disabled="true" value="">Select Student</option>
+
+          <option *ngIf="emptyStudents" disabled>No students are added yet. Try again later.</option>
+          
+            <option *ngFor="let s of students" [value]="s.id" >{{s.name}}</option>
+            
+          </select> -->
+
+          <input type="text" class="form-control" placeholder="Select Student" name="studentId" id="try" (keyup)="trychange($event)">
+          <button type="button" class="list-btn" style="  float: right;margin-top: -30px;background: none;border: none;" (click)="fulllist()" > <span class="glyphicon glyphicon-chevron-down custom-icon" ></span></button>
+          <ul class="list-group" [style.height.px]="length" style="overflow: auto;" *ngIf="!isEmpty">
+            <li class="list-group-item" *ngFor=" let s of students" (click)="selectstudent(s)">{{s.name}}</li>
+            <li *ngIf=" students.length== 0"> *No Data To Display</li>
+          </ul>
+
+
+      <loader [condition]="studentLoader" class="dropdownLoader"></loader>                  
+      <div>
+        <div [hidden]="appreciation.controls.studentId.untouched  ||appreciation.controls.studentId.valid" class="alert alert-warning">This field is required</div>  
+      </div>      
+      </div>
+      <div class="form-group">
+        <label for="title">Title</label>
+        <span class="badge">{{50 - appreciation.value.title.length}}</span>
+        <textarea class="form-control" name="title" formControlName="title" maxlength="50" rows="1"></textarea>
+        <div [hidden]="appreciation.controls.title.untouched || appreciation.controls.title.pristine || appreciation.controls.title.valid" class="alert alert-warning">This field is required</div>
+
+      </div>
+
+      <div class="form-group">
+        <label for="description">Description</label>
+        <span class="badge">{{2000 - appreciation.value.description.length}}</span>
+        <textarea class="form-control" name="description" formControlName="description" maxlength="2000"></textarea>
+        <div [hidden]="appreciation.controls.description.untouched || appreciation.controls.description.pristine || appreciation.controls.description.valid" class="alert alert-warning">This field is required</div>
+      </div>
+      <button type="submit" class="btn btn-success" [disabled]="appreciation.invalid">Submit</button>
+    </form>
+  </div>
+</div>
+
+<div class="modal fade" id="appreciationModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="exampleModalLabel">Appreciation Added</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        You have successfully added a new appreciation
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" [routerLink]="['/appreciation/for-student']">Close</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Add More</button>
+      </div>
+    </div>
+  </div>
+</div>

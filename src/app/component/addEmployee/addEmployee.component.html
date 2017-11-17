@@ -1,0 +1,263 @@
+<div class="panel panel-default">
+  <div class="panel panel-heading">Add Employee
+    <button type="button" class="close pull-right" aria-label="Close" (click)="_location.back();">
+    <span aria-hidden="true">&times; </span>
+  </button>
+  </div>
+  <div class="panel panel-body">
+    <div class="row text-center">
+      <loader [condition]="loader"></loader>
+    </div>
+    <form [formGroup]="addEmployeeForm" (submit)="submitDetails()">
+
+      <div class="form-group">
+        <label for="name">Name</label>
+        <input type="text" class="form-control" formControlName="name" id="name" placeholder="Enter Name">
+        <div [hidden]="addEmployeeForm.controls.name.untouched  ||addEmployeeForm.controls.name.valid ||addEmployeeForm.controls.name.pristine"
+          class="alert alert-warning">This field is required.
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="username" required>User Name<span class="required">*</span></label>
+        <input type="text" class="form-control" formControlName="username" id="username" placeholder="Enter User Name">
+        <div [hidden]="addEmployeeForm.controls.username.untouched  ||addEmployeeForm.controls.username.valid ||addEmployeeForm.controls.username.pristine"
+          class="alert alert-warning">should start with an alphabet, length should be between 4 & 20.
+          <div class="required">This field is required</div>
+        </div>
+        <!--<input type="text" class="form-control" formControlName="username" id="username" placeholder="Enter User Name" (focus)='userNameValid=true' (blur)='userNameValid=false' >-->
+        <!--<div *ngIf="userNameValid" >
+          <small id="emailHelp" class="form-text text-muted">should start with an alphabet, length should be between 4 & 20.</small>
+        </div>-->
+
+      </div>
+      <div class="form-group">
+        <label for="nickName">Nick Name</label>
+        <input type="text" class="form-control" id="nickName" formControlName="nickName" placeholder="Enter Nick Name">
+      </div>
+
+      <div class="form-group">
+        <label for="password" required>Password<span class="required">*</span></label>
+        <input type="password" class="form-control" id="password" formControlName="password" placeholder="Enter password">
+        <div [hidden]="addEmployeeForm.controls.password.untouched  ||addEmployeeForm.controls.password.valid ||addEmployeeForm.controls.password.pristine"
+          class="alert alert-warning">should start with an alphabet and should have atleast 1 character.
+          <div class="required">This field is required</div>
+        </div>
+
+        <!--<input type="password" class="form-control" id="password" formControlName="password" placeholder="Enter password" (focus)='passwordValid=true' (blur)='passwordValid=false' >
+        <div *ngIf="passwordValid">
+          <small id="emailHelp" class="form-text text-muted">at least 1 number and minimum 6 characters</small>
+        </div>-->
+      </div>
+
+      <div class="form-group">
+        <label for="email1">Email address</label>
+        <input type="email" class="form-control" id="email1" formControlName="email" aria-describedby="emailHelp" placeholder="Enter email">
+        <div [hidden]="addEmployeeForm.controls.email.untouched  ||addEmployeeForm.controls.email.pristine || addEmployeeForm.controls.email.valid "
+          class="alert alert-warning">Enter Valid Email address</div>
+
+
+        <!--<input type="email" class="form-control" id="email1" formControlName="email" aria-describedby="emailHelp" placeholder="Enter email" (focus)='emailValid=true' (blur)='emailValid=false' >-->
+        <!--<div *ngIf="emailValid" >
+          <small id="emailHelp" class="form-text text-muted">Email Address should be valid.</small>
+        </div>-->
+      </div>
+
+      <div class="form-group">
+        <label for="contactNo">Contact No.</label>
+        <input type="tel" class="form-control" id="contactNo" formControlName="contactNo" placeholder="Enter Contact No.">
+        <div [hidden]="addEmployeeForm.controls.contactNo.untouched  ||addEmployeeForm.controls.contactNo.pristine || addEmployeeForm.controls.contactNo.valid "
+          class="alert alert-warning">Must be 10 digits</div>
+        <!--<input type="tel" class="form-control" id="contactNo" formControlName="contactNo" placeholder="Enter Contact No." (focus)='contactValid=true' (blur)='contactValid=false' >
+        <div *ngIf="contactValid" >
+          <small id="emailHelp" class="form-text text-muted">should be 10 digits.</small>
+        </div>-->
+      </div>
+
+      <br>
+
+      <!--<div class="form-check col-lg-12">
+    <label class="form-check-label">
+      <input type="checkbox" class="form-check-input" > ngModel
+      Are you a Teacher?
+    </label>
+  </div>
+
+  <br/>-->
+
+      <!--<div formArrayName="teacherStandards" *ngIf="this.addEmployeeForm.value.isTeacher" class="col-lg-12">
+    <br/>
+    <div class="row" *ngFor="let stu of addEmployeeForm.controls.teacherStandards.controls; let i=index;" [formGroupName]="i">
+
+      <div class="form-group col-lg-6">
+        <label>Select Standard</label>
+        <select class="form-control" formControlName="standard" (ngModelChange)="getSubjects($event,i)">
+     <option *ngFor="let standard of standards" [value]="standard.id" >{{standard.name}}</option>
+              </select>
+      </div>
+
+      <div class="form-group col-lg-5">
+        <label>Select Subject</label>
+        <select class="form-control" formControlName="subject">
+          <option selected disabled > </option>
+                <option *ngFor="let subject of subjects[i]">{{subject.subjectName}}</option>
+              </select>
+      </div>
+
+      <div class="col-lg-1">
+        <button type="button" class="btn btn-primary active" (click)="removeStandard(addEmployeeForm,i)">
+                    <span class="glyphicon glyphicon-remove"></span>
+        </button>
+      </div>
+    </div>
+    <br/>
+  </div>-->
+
+      <button type="submit" [disabled]="(!addEmployeeForm.valid)" class="btn btn-primary">Submit</button>
+
+      <!--<button type="submit" class="btn btn-primary">Submit</button>-->
+      <button type="button" *ngIf="this.addEmployeeForm.value.isTeacher" class="btn btn-primary" [disabled]="addEmployeeForm.controls.teacherStandards.invalid"
+        (click)="addStandard(addEmployeeForm)">Add Standards
+  </button>
+    </form>
+  </div>
+</div>
+
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Profile Details</h4>
+      </div>
+      <div class="modal-body">
+        <div>
+          <div class="row">
+            <div class="modal-heading">
+              <div class="row">
+                <i class="glyphicon glyphicon-edit"></i>
+              </div>
+              <div class="row" *ngIf="profilePic">
+                <img [attr.src]="fileUrl + '/' + profilePic" data-toggle="modal" data-target="#picModal" height="100px" width="100px" class="modal-image"
+                  data-dismiss="modal">
+              </div>
+            </div>
+          </div>
+          <!--<i class="glyphicon glyphicon-edit"></i>-->
+          <div class="row" *ngIf="this.addEmployeeForm.value.name">
+            <div class="modal-name">{{this.addEmployeeForm.value.name}}</div>
+          </div>
+          <div class="row" *ngIf="this.addEmployeeForm.value.nickName">
+            <div class="modal-nickName modal-class">
+              <div>{{this.addEmployeeForm.value.nickName}}</div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-6">
+              <i class="glyphicon glyphicon-user"></i>
+            </div>
+            <div class="col-sm-6">
+              <div class="userName">
+                <label class="heading">Username</label>
+                <div class="value">{{this.addEmployeeForm.value.username}}</div>
+              </div>
+            </div>
+          </div>
+          <hr class="style-line" *ngIf="this.addEmployeeForm.value.contactNo">
+          <div class="row" *ngIf="this.addEmployeeForm.value.contactNo">
+            <div class="col-sm-6">
+              <i class="glyphicon glyphicon-user"></i>
+            </div>
+            <div class="col-sm-6">
+              <div class="contact">
+                <label class="heading">Contact</label>
+                <div class="value">{{this.addEmployeeForm.value.contactNo}}</div>
+              </div>
+            </div>
+          </div>
+          <hr class="style-line" *ngIf="this.addEmployeeForm.value.email">
+
+          <div class="row" *ngIf="this.addEmployeeForm.value.email">
+            <div class="col-sm-6">
+              <i>@</i>
+            </div>
+            <div class="col-sm-6">
+              <div class="email">
+                <label class="heading">Email</label>
+                <div class="value">{{this.addEmployeeForm.value.email}}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-footer" style="margin-top:0 !important;">
+      <button type="button" class="btn btn-primary " data-dismiss="modal" (click)="initForm()">Close</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="errorModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="exampleModalLabel">Invalid Username</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Username already taken. Choose another username.
+      </div>
+      <div class="modal-footer">
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="picModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="exampleModalLabel">Upload New Picture</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form [formGroup]="uploadPicForm">
+        <div class="modal-body" style="padding: 5% 3% 3% 3%;
+    outline: none;">
+          <input type="file" class="form-control-file" formControlName="imgFile" accept="image/*" id="exampleInputFile" aria-describedby="fileHelp"
+            (change)="getFile($event)">
+        </div>
+        <div class="modal-footer">
+
+          <button type="submit" class="btn btn-primary" data-dismiss="modal" style="float:right;" (click)="changePicture()">Confirm Picture</button>
+
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+
+<div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="exampleModalLabel">Profile Picture Updated</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        You have successfully updated the information.
+      </div>
+    </div>
+  </div>
+</div>

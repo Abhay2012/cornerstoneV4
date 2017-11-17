@@ -1,0 +1,305 @@
+<!-- <h1>Complaint</h1> -->
+<div class="panel panel-default">
+  <!-- Default panel contents -->
+  <div class="panel-heading">{{status}} Complaints</div>
+
+  <!-- Table -->
+  <div class="panel-body">
+    <!--<div class="form-group row">
+      <div class="col-lg-12">
+        <input class="form-control" type="search" placeholder="Search by complaint title .,. " id="example-search-input" (keyup)="searchComplaints($event)">
+      </div>
+    </div>-->
+    <div class="row text-center">
+      <loader [condition]="loader"></loader>
+    </div>
+    <!--cards -->
+    <div style="margin-top: 2%;padding-top: 1%;">
+      <div class="container card" *ngFor="let c of complaints; let i = index;">
+        <div class="row">
+          <div class="col-sm-6 col-xs-6" *ngIf="!complaintStatus" style="margin: -8px -24px;">
+            <span [style.background]="c.statusColor" class="badge">@{{c.statusName}}</span>
+          </div>
+          <span class="glyphicon glyphicon-resize-full expand" onclick="$('.panel.panel-chat').hide();" (click)="seletToExpand(c,i)"
+            data-toggle="modal" data-target="#myModal-card"></span>
+        </div>
+        <!-- <div class="row">
+        <div class="col-sm-6" *ngIf="!complaintStatus">
+          <span [style.background]="c.statusColor" class="badge">@{{c.statusName}}</span>
+        </div>
+        <div class="col-sm-6" class="badge">{{c.priorityName}}</div>
+      </div> -->
+        <div class="row">
+          <img class="image" [attr.src]="fileUrl + c.studentPicUrl" style="border-radius:50% !important">
+        </div>
+        <div class="row name">{{c.studentName}}</div>
+        <div class="row class">{{c.studentStandardName}}</div>
+        <hr class="style-line">
+        <div class="row title">{{c.title}}</div>
+        <div class="row description">{{c.description}}</div>
+        <hr class="style-line">
+        <div class="row" *ngIf="(status!=4)">
+          <div class="col-sm-6 col-xs-6 edit">
+            <a [ngClass]="{'disabled-click' : ((c.statusId == 4)|| (c.statusId == 6)) }" (click)="selectComplaint(c,i)" data-toggle="modal"
+              data-target="#myModal" class="action"><i class="glyphicon glyphicon-pencil"></i>
+          </a>
+          </div>
+          <div class="col-sm-6 col-xs-6 comment">
+            <a onclick="$('.panel.panel-chat').show();" (click)="getComplaintCommentById(c)" class="action"><i class="glyphicon glyphicon-comment"></i>
+          </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--end cards-->
+    <div class="row col-lg-12" style="text-align: center" *ngIf="(EmptyComplaints)&&(!loader)&&(currentPage==1)"><b>No Complaints are added to the view.</b></div>
+    <div class="row col-lg-12" style="text-align: center" *ngIf="(EmptyComplaints)&&(!loader)&&(currentPage!=1)"><b>No more Complaints are added to the view.</b></div>
+  </div>
+  <div class="panel-footer">
+    <!--<button (click)="previousComplaint()" [disabled]="currentPage === 1" type="button" class="btn btn-primary">Previous</button>-->
+    <div class="text-center"><button (click)="nextComplaint()" type="button" [disabled]="EmptyComplaints || noMore" class="btn btn-primary">Load More</button></div>
+  </div>
+</div>
+<div class="modal fade" id="myModal-card" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content" *ngIf="selectedComplaint">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="gridSystemModalLabel">{{selectedComplaint.title}}</h4>
+          </div>
+          <div class="modal-body card-modal">
+            <div class="row first-row">
+              <div class="col-sm-6">
+                <div class="badge" [ngStyle]="{'backgroundColor': selectedComplaint.statusColor}">@{{selectedComplaint.statusName}}</div>
+              </div>
+              <div class="col-sm-6">
+                <div class="row badge" *ngIf="selectedComplaint.assignedEmployeeName"><span class="empName">@{{selectedComplaint.assignedEmployeeName}}</span></div>
+              </div>
+            </div>
+            <div class="row modal-heading">
+              <div class="col-sm-4 coloumn-middle">
+                <div class="align-middle">
+                  <div class="big-fonts">{{selectedComplaint.commentCount}}</div>
+                  <label class="heading">Comments</label>
+                </div>
+              </div>
+
+
+              <div class="col-sm-4 coloumn-middle" style="float:right">
+                <div class="align-middle">
+                  <div class="big-fonts">{{selectedComplaint.priorityName}}</div><label class="heading">Priority</label>
+                  <!--<div class="col-sm-4 col-xs-4 complaint-modal-head">
+            <img  class="modal-image" [attr.src]="fileUrl + selectedComplaint.studentPicUrl">
+          </div>
+          <div class="col-sm-4 col-xs-4 complaint-modal-head">
+            <div class="middle-title"> 
+              <div class="big-fonts">{{selectedComplaint.priorityName}}</div>
+              <label class="heading">Priority</label>-->
+                </div>
+              </div>
+              <div class="col-sm-4"><img class="modal-image" [attr.src]="fileUrl + selectedComplaint.studentPicUrl" style="border-radius:50% !important"></div>
+            </div>
+            <div class="row modal-name">{{selectedComplaint.studentName}}
+              <div class="modal-class">{{selectedComplaint.studentStandardName}}</div>
+            </div>
+            <div class="row modal-description">
+              <div class="row "><label class="heading">Description : </label><span class="white-space"> {{selectedComplaint.description}}</span></div>
+              <div class="row" *ngIf="selectedComplaint.rca"><label class="heading">Root Cause : </label><span> {{selectedComplaint.rca}}</span></div>
+            </div>
+            <hr class="style-line">
+            <div class="row complaint-category">
+              <div class="col-sm-2 col-xs-2"><img src="https://cdn4.iconfinder.com/data/icons/hr-recruitment-management-part-3/360/opinion_feedback_comment_employee_staff_complain-128.png"
+                  class="complaint-icon"></div>
+              <div class="col-sm-5 col-xs-5">
+                <label class="heading">Complaint-Category</label>
+                <div class="result">{{selectedComplaint.againstCategoryName}}</div>
+              </div>
+              <div class="col-sm-5 col-xs-5">
+                <label class="heading">Complaint-Against</label>
+                <div class="result">{{selectedComplaint.againstEmployeeName}}
+                  <div *ngIf="!selectedComplaint.againstEmployeeName">-</div>
+                </div>
+              </div>
+            </div>
+            <hr class="style-line">
+            <div class="row">
+              <div class="col-sm-2 col-xs-2"><i class="glyphicon glyphicon-calendar calendar-custom"></i></div>
+              <div class="col-sm-5 col-xs-5"><label class="heading">Created At</label>
+                <div class="result">{{selectedComplaint.createdAt | date}}</div>
+              </div>
+              <div class="col-sm-5 col-xs-5"><label class="heading">Closed On</label>
+                <div class="result" *ngIf="selectedComplaint.closedOn">{{selectedComplaint.closedOn | date}}</div>
+                <div *ngIf="!selectedComplaint.closedOn" style="font-weight:700">-</div>
+              </div>
+
+            </div>
+          </div>
+          <div class="modal-footer">
+            <div class="row">
+              <div class="col-sm-4 col-xs-12">
+                <button [disabled]="(selectedComplaint.statusId == 4) || (selectedComplaint.statusId == 6) " data-toggle="modal" data-target="#myModal"
+                  class="btn btn-primary modal-btn " (click)="selectComplaint(selectedComplaint,selectedIndex)" data-dismiss="modal">Edit<i class="glyphicon glyphicon-pencil icon"></i></button>
+              </div>
+              <div class="col-sm-4 col-xs-12">
+                <button onclick="$('.panel.panel-chat').show();" (click)="getComplaintCommentById(c)" class="btn btn-primary modal-btn" data-dismiss="modal">Comment<i class="glyphicon glyphicon-comment icon"></i></button>
+              </div>
+              <div class="col-sm-4 col-xs-12">
+                <button type="button" class="btn btn-primary modal-btn" [disabled]="(selectedComplaint.statusId == 4) || (selectedComplaint.statusId == 6)"
+                  data-target="#myModal3" data-toggle="modal" data-dismiss="modal">Close<i class="glyphicon glyphicon-remove icon"></i></button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- /.modal-content -->
+      </div>
+      <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
+
+<!-- Edit Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="exampleModalLabel">Edit Complaint</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form name="form1" [formGroup]="editForm">
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="sel1">Assigned To:</label>
+
+            <select class="form-control" formControlName="assignedTo">
+              
+              <option [attr.disabled]="true" [value]='null'>Select</option>
+              <option *ngFor="let emp of employees; let i = index " [selected]=" i == 0 " [value]="emp.id" >{{emp.name}}</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <p><b>Priority:</b></p>
+            <div class="radio" *ngFor="let prio of priorities;">
+              <label><input type="radio" name="priorityId" [value]="prio.id" formControlName="priorityId">{{prio.name}}</label>
+            </div>
+          </div>
+          <div class="form-group">
+            <p><b>Status:</b></p>
+            <div class="checkbox">
+              <label><input type="checkbox" name="progress" formControlName="statusId">In Progress</label>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default pull-right" (click)="resetComplaints()">Reset</button>
+          <button type="button" (click)="updateComplaint()" class="btn btn-default pull-right" data-dismiss="modal">Submit</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!--End of Edit-->
+
+<!-- Close Modal -->
+<div class="modal fade" id="myModal3" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Close Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Close Complaint </h4>
+      </div>
+      <form [formGroup]="closeForm">
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="rootCause">Root Cause</label>
+            <textarea class="form-control" formControlName="rca" id="rootCause" rows="3" required></textarea>
+          </div>
+          <div class="form-group">
+            <label for="exampleTextarea">Comment</label>
+            <textarea class="form-control" formControlName="comment" id="commentClose" rows="3" required></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" (click)="closeComplaint()" [disabled]="closeForm.invalid" class="btn btn-default" data-toggle="modal"
+            data-target="#myModal4" data-dismiss="modal">Submit</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="myModal4" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        Close Complaint
+      </div>
+      <div class="modal-body">
+        <h4 class=""> You have successfully closed the complaint</h4>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- chat -->
+<div id="chat" class="panel panel-chat">
+  <div class="panel-heading">
+    <a href="#" class="chatMinimize" onclick="return false"><span>{{complaintTitleOfCommentModel | uppercase}}</span></a>
+    <a href="#" class="chatClose" onclick="return false"><i class="glyphicon glyphicon-remove"></i></a>
+    <div class="clearFix"></div>
+  </div>
+  <div class="panel-body">
+    <div *ngIf="EmptyComments && !loaderComment" style="text-align:center;">No Comments to display</div>
+    <div class="row text-center">
+      <loader [condition]="loaderComment"></loader>
+    </div>
+    <div *ngFor="let c of comments" class="commments">
+      <div *ngIf="c.employeeId == currentUser">
+        <div class="myMsg">
+          <img [attr.src]="fileUrl + c.employeePicUrl" class="myImg" />
+          <div class="myText">
+            <span class="myText-style">
+              {{c.comment}}
+            </span>
+          </div>
+        </div>
+        <div class="myMsgDate">
+          me: {{c.createdAt|date}}
+        </div>
+      </div>
+      <div *ngIf="c.employeeId != currentUser">
+        <div class="msg">
+          <img *ngIf="c.parentPicUrl" [attr.src]="fileUrl + c.parentPicUrl" class="img" />
+          <img *ngIf="c.employeePicUrl" [attr.src]="fileUrl + c.employeePicUrl" class="img" />
+          <div class="text">
+            <span class="text-style">
+              {{c.comment}}
+            </span>
+          </div>
+        </div>
+        <div class="msgDate">
+          <span *ngIf="c.employeeName">{{c.employeeName}}</span>
+          <span *ngIf="c.parentName">{{c.parentName}}</span>
+          <span>: {{c.createdAt|date}}</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <div class="panel-footer" >
+      <div class=" badge closed-comment" *ngIf="closed">
+        <div>This complaint has been closed.</div>
+    </div>
+    <form [formGroup]="commentForm" (submit)="submitComment()" *ngIf="!closed">
+      <input type="text"name="comment" formControlName="comment" class="comment-text">
+      <span class="send-button">
+        <button type="submit" class="btn btn-success btn-circle btn-lg"><i class="glyphicon glyphicon-share-alt"></i></button>
+    </span>
+    </form>
+  </div>
+</div>

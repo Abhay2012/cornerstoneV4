@@ -1,0 +1,1 @@
+{"version":3,"file":"addStudent.component.js","sourceRoot":"","sources":["addStudent.component.ts"],"names":[],"mappings":";;;;;;;;;;;AAAA,sCAAwC;AAMxC;IACE;IAEA,CAAC;IAHU,mBAAmB;QAL/B,gBAAS,CAAC;YACT,QAAQ,EAAE,aAAa;YACvB,WAAW,EAAE,6BAA6B;YAC1C,SAAS,EAAE,CAAC,4BAA4B,CAAC;SAC1C,CAAC;;OACW,mBAAmB,CAI/B;IAAD,0BAAC;CAAA,AAJD,IAIC;AAJY,kDAAmB"}

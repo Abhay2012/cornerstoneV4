@@ -18,6 +18,7 @@ export class ByMeComponent extends ComplaintComponent implements OnDestroy, OnIn
     public  ls : LoaderStop,
     public  route: ActivatedRoute) {
     super(cs,ls,router,route);
+    if(this.url == "/appreciation/for-student") this.url = "/appreciation/for-student";
   }  
 
   ngOnInit(){
@@ -27,5 +28,4 @@ export class ByMeComponent extends ComplaintComponent implements OnDestroy, OnIn
   ngOnDestroy(){
      this.ls.setLoader(true); 
     }
-  
 }

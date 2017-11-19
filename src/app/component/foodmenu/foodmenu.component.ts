@@ -170,7 +170,7 @@ export class FoodmenuComponent implements AfterViewInit, OnDestroy{
 
     public  addMenuForm(){
         return new FormGroup({
-            foodId :  new FormControl('',[Validators.required]),
+            foodIds :  new FormControl('',[Validators.required]),
             day:new FormControl(this.start,[Validators.required])
         })
     }
@@ -388,7 +388,7 @@ export class FoodmenuComponent implements AfterViewInit, OnDestroy{
          console.log("decdc" + this.foodItemIds);
         console.log(ev.dataTransfer.getData("Text"));
         console.log(ev);
-        this.addMenu.controls['foodId'].patchValue(this.foodItemIds[0]);
+        this.addMenu.controls['foodIds'].patchValue(this.foodItemIds);
     }
 
     removeItemlunch(i:string){
@@ -441,7 +441,7 @@ export class FoodmenuComponent implements AfterViewInit, OnDestroy{
           console.log("decdc" + this.foodItemIds);
         console.log(ev.dataTransfer.getData("Text"));
         console.log(ev);
-        this.addMenu.controls['foodId'].patchValue(this.foodItemIds[0]);
+        this.addMenu.controls['foodIds'].patchValue(this.foodItemIds);
     }
 
 

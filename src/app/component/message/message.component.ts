@@ -208,13 +208,14 @@ export class MessageComponent implements AfterViewInit, OnInit {
   }
 
   public  searchMessages(ev: any) {
+    console.log("cdcdsa");
     this.oldMessageRecipients = this.oldMessageRecipientsCOPY;
     let val = ev.target.value;
     if (val && val.trim() != '') {
       this.emptySearchResult = false;
       this.oldMessageRecipients = this.oldMessageRecipientsCOPY.filter((item: any) => {
         console.log(item);
-        return (item.title.toLowerCase().indexOf(val.toLowerCase()) > -1 || item.firstMessage.message.toLowerCase().indexOf(val.toLowerCase()) > -1 || item.firstMessage.parentName.toLowerCase().indexOf(val.toLowerCase()) > -1);
+        return (item.title.toLowerCase().indexOf(val.toLowerCase()) > -1 || item.firstMessage.message.toLowerCase().indexOf(val.toLowerCase()) > -1 );
       })
       if (this.oldMessageRecipients.length === 0)
         this.emptySearchResult = true;

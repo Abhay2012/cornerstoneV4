@@ -19,6 +19,7 @@ export class HomeworkAddComponent implements OnInit {
   public  title: string = "New Homework";
   public  homework: FormGroup;
   public  submitProgress: boolean = false;
+  invalidDate:boolean = false;
   standards: any = [];
   subjects: any = [];
   public  noOfFiles : number = 0;
@@ -83,8 +84,11 @@ export class HomeworkAddComponent implements OnInit {
 
   onDueDate(e: any) {
     if (new Date(e.target.value) < new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate())) {
-      alert("Please choose an upcoming date from the calendar.");
+      // alert("");
+      
       this.homework.controls['dueDate'].patchValue(this.commonService.getTomorrow());
+    }else{
+      this.invalidDate = false;
     }
   }
 

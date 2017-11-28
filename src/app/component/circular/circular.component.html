@@ -86,7 +86,7 @@
     </nav>-->
     <!--<button (click)="previousCircular()" class="btn btn-primary nav-btn right" [disabled]="currentPage === 1">Previous</button>
     <button (click)="nextCircular()" class="btn right btn-danger nav-btn" [disabled]="EmptyCirculars || noMore">Next</button>-->
-    <div class="text-center"><button (click)="nextCircular()" class="btn btn-primary" [disabled]="EmptyCirculars || noMore">Load More</button></div>
+    <div class="text-center"><button (click)="nextCircular()" class="btn btn-primary" *ngIf="!EmptyCirculars && !noMore">Load More</button></div>
   </div>
 </div>
 

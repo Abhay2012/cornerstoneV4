@@ -26,7 +26,7 @@
             <div class="form-group">
                 <label for="type">Type</label>
                 <select class="form-control" formControlName="type" name="type" id="type">
-                    <option value='Snacks'>
+                    <option value='Snack'>
                       Snack
                     </option>
                     <option value="Lunch">
@@ -158,7 +158,7 @@
                 <span style="float:left;top:45px" *ngIf="startMenuS!=0" class="glyphicon glyphicon-menu-left" (click)="moveLeftS(startMenuS, endMenuS)"></span>
                 <span style="float:left;overflow: hidden " *ngFor=" let item of foodItemsS1; let i = index ">
                   
-                  <img (dragstart)="drag($event,item.name)" *ngIf=" item.type=='Snacks'  && i>=startMenuS && i<=endMenuS" [title]="item.name" class="food-pic" [src]="item.url" [alt]="item.name" draggable="true" /><br>
+                  <img (dragstart)="drag($event,item.name)" *ngIf=" item.type=='Snack'  && i>=startMenuS && i<=endMenuS" [title]="item.name" class="food-pic" [src]="item.url" [alt]="item.name" draggable="true" /><br>
                   <div style="display:inline-block;width:100px;text-align:center; " *ngIf=" item.type=='Snacks' && i>=startMenuS && i<=endMenuS" >{{item.name}}</div>
                   
                 </span>

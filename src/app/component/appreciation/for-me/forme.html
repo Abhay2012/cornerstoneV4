@@ -39,7 +39,7 @@
 
     <div class="panel-footer">
       <!--<button (click)="previousComplaint()" [disabled]="currentPage === 1" type="button" class="btn btn-primary">Previous</button>-->
-      <div class="text-center"><button (click)="nextComplaint()" type="button" [disabled]="EmptyComplaints || noMore" class="btn btn-primary">Load More</button></div>
+      <div class="text-center"><button (click)="nextComplaint()" type="button" *ngIf="!EmptyComplaints && !noMore" class="btn btn-primary">Load More</button></div>
     </div>
   </div>
 </div>

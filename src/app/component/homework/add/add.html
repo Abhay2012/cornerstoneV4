@@ -47,6 +47,7 @@
     <div class="form-group">
       <label for="date">Due Date</label>
       <input class="form-control glyphicon glyphicon-calendar" type="date" max="2019-10-31" displayFormat="DD MMM YYYY" name="dueDate" formControlName="dueDate" (change)="onDueDate($event)" id="duedate">
+      <span class="label label-danger" *ngIf="invalidDate">Please choose an upcoming date from the calendar.</span>
     </div>
       </div>
       <div class="col-sm-12 col-lg-6">

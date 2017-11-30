@@ -22,13 +22,13 @@
             <div class="download-image" *ngIf="a.files">
               <span>
                <img class="image" *ngIf="a.files[0].fileOriginalName.substr(a.files[0].fileOriginalName.length - 4) != '.pdf'" [attr.src]="fileUrl + a.files[0].fileTimestamp">
-               <img class="image" *ngIf="a.files[0].fileOriginalName.substr(a.files[0].fileOriginalName.length - 4) == '.pdf'" src="/assets/pdf.png">
+               <img class="image" *ngIf="a.files[0].fileOriginalName.substr(a.files[0].fileOriginalName.length - 4) == '.pdf'" src="assets/pdf.png">
               </span>
               <div class="edit-image"><a [attr.href]="fileUrl + a.files[0].fileTimestamp"><i class="fa fa-download fa-lg"></i></a></div>
             </div>
             <div>
               <span>
-              <img class="image" *ngIf="!a.files" src="/assets/preview.png" alt="No Preview Avalable">
+              <img class="image" *ngIf="!a.files" src="assets/preview.png" alt="No Preview Avalable">
                 <!--<div class="edit-image" style="display:none"><a [attr.href]="fileUrl + a.fileTimestamp"><i class="fa fa-download fa-lg"></i></a></div>-->
               </span>
             </div>
@@ -99,7 +99,7 @@
             
             <img  *ngIf="selectedHomework.files[imgindex-1].fileOriginalName.substr(selectedHomework.files[imgindex-1].fileOriginalName.length - 4) != '.pdf'" style="float:left;margin-right: 12px" (click)="swipe(-1)" class="sideimage" [attr.src]="fileUrl + selectedHomework.files[imgindex-1].fileTimestamp">
 
-            <img  *ngIf="selectedHomework.files[imgindex-1].fileOriginalName.substr(selectedHomework.files[imgindex-1].fileOriginalName.length - 4) == '.pdf'" style="float:left;margin-right: 12px" (click)="swipe(-1)" class="sideimage" src="/assets/pdf1.jpg">
+            <img  *ngIf="selectedHomework.files[imgindex-1].fileOriginalName.substr(selectedHomework.files[imgindex-1].fileOriginalName.length - 4) == '.pdf'" style="float:left;margin-right: 12px" (click)="swipe(-1)" class="sideimage" src="assets/pdf1.jpg">
           
           </span>
             
@@ -111,7 +111,7 @@
 
                <img *ngIf="selectedHomework.files[imgindex].fileOriginalName.substr(selectedHomework.files[imgindex].fileOriginalName.length - 4) != '.pdf'" class="image1" [attr.src]="fileUrl + selectedHomework.files[imgindex].fileTimestamp">
 
-               <img *ngIf="selectedHomework.files[imgindex].fileOriginalName.substr(selectedHomework.files[imgindex].fileOriginalName.length - 4) == '.pdf'" class="image1" src="/assets/pdf1.jpg">
+               <img *ngIf="selectedHomework.files[imgindex].fileOriginalName.substr(selectedHomework.files[imgindex].fileOriginalName.length - 4) == '.pdf'" class="image1" src="assets/pdf1.jpg">
               
               </span>
               <div *ngIf="selectedHomework.files && selectedHomework.files[imgindex]" class="edit-image-modal"><a [attr.href]="fileUrl + selectedHomework.files[imgindex].fileTimestamp"><i class="fa fa-download fa-lg"></i></a></div>
@@ -124,7 +124,7 @@
           
             <img *ngIf="selectedHomework.files[imgindex+1].fileOriginalName.substr(selectedHomework.files[imgindex+1].fileOriginalName.length - 4) != '.pdf'" style="float:left;margin-left:12px;" (click)="swipe(1)" class="sideimage" [attr.src]="fileUrl + selectedHomework.files[imgindex+1].fileTimestamp">
 
-            <img *ngIf="selectedHomework.files[imgindex+1].fileOriginalName.substr(selectedHomework.files[imgindex+1].fileOriginalName.length - 4) == '.pdf'" style="float:left;margin-left:12px;" (click)="swipe(1)" class="sideimage" src="/assets/pdf1.jpg">
+            <img *ngIf="selectedHomework.files[imgindex+1].fileOriginalName.substr(selectedHomework.files[imgindex+1].fileOriginalName.length - 4) == '.pdf'" style="float:left;margin-left:12px;" (click)="swipe(1)" class="sideimage" src="assets/pdf1.jpg">
 
             </span>
 
@@ -135,7 +135,7 @@
             
             
             <div *ngIf="!selectedHomework.files">
-              <img class="image1" src="/assets/preview.png" alt="No Preview Avalable">
+              <img class="image1" src="assets/preview.png" alt="No Preview Avalable">
             </div>
 
             <br *ngIf="selectedHomework.files">

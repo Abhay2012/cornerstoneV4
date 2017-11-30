@@ -1,8 +1,8 @@
 <div class="error">
-  <div class="oops"><img src="/assets/icons/oops.jpg"></div>
+  <div class="oops"><img src="assets/icons/oops.jpg"></div>
   <div class="msg-container">Error 404 !</div>
   <div class="msg">
     Page not found 
   </div>
-  <div class="reload"><button class="btn btn-primary" [routerLink]="['/']">Reload</button></div>
+  <div class="reload"><button class="btn btn-primary" (click)="refresh()" [routerLink]="['/']">Reload</button></div>
 </div>

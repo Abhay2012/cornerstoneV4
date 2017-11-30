@@ -11,6 +11,10 @@ import { LoaderStop } from "../../providers/loaderstop.service";
 export class Error404Component{
 	constructor(public ls : LoaderStop){
 		ls.setLoader(false);
-	}
+  }
+  
+  refresh(){
+    localStorage.clear();
+  }
 
 }

@@ -5,9 +5,9 @@
     <picture>
       <source media="(min-width: 750px)" srcset="./icons/header-srgs.png">
       <source media="(min-width: 250px)" srcset="./icons/header-srgs-2.png">
-      <img class="header-srgs" src="/assets/icons/header-srgs.png">
+      <img class="header-srgs" src="assets/icons/header-srgs.png">
     </picture>
-   <img  class="header-srgs"src="/assets/icons/srgs_temp.png">
+   <img  class="header-srgs"src="assets/icons/srgs_temp.png">
     <a class="profile-img-container" (click)="displayProfile=!displayProfile"><img class="profile-img" src="{{log.getData('picUrl')}}" *ngIf="log.getData('picUrl')"></a>
     
   </div>-->
@@ -20,7 +20,7 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
           <ul class="nav navbar-top-links navbar-right">
              <!--<li class="brand">Cornerstone</li>-->
-             <li class="logo-list"><img src="/assets/icons/logo.png" class="logo"></li>
+             <li class="logo-list"><img src="assets/icons/logo.png" class="logo"></li>
              <li>
                <a class="profile-img-container" (click)="displayProfile=!displayProfile"><img class="profile-img" src="{{log.getData('picUrl')}}" *ngIf="log.getData('picUrl')"></a>
              </li>
@@ -91,7 +91,7 @@
  
      <li class="sidebar-items">
         <a [routerLink]="['/account']" routerLinkActive="active">
-          <img  class="sidebar-icon" src="/assets/icons/profile.png">  Account
+          <img  class="sidebar-icon" src="assets/icons/profile.png">  Account
           <i class="fa fa-chevron-right arrow" aria-hidden="true"></i>          
         </a>
       </li>
@@ -108,21 +108,21 @@
 
       <li class="sidebar-items" *ngIf="role=='admin'">
         <a [routerLink]="['/time-table']" routerLinkActive="active">
-          <img  class="sidebar-icon" src="/assets/icons/calendar.png">  Time Table
+          <img  class="sidebar-icon" src="assets/icons/calendar.png">  Time Table
           <i class="fa fa-chevron-right arrow" aria-hidden="true"></i>          
         </a>
       </li>
 
       <li class="sidebar-items" *ngIf="role=='admin'">
         <a [routerLink]="['/foodmenu']" routerLinkActive="active">
-          <img  class="sidebar-icon" src="/assets/icons/food.png">  Food Menu
+          <img  class="sidebar-icon" src="assets/icons/food.png">  Food Menu
           <i class="fa fa-chevron-right arrow" aria-hidden="true"></i>          
         </a>
       </li>
 
       <li class="sidebar-items" *ngIf="role=='admin'">
         <a [routerLink]="['/add-student']" routerLinkActive="active">
-          <img  class="sidebar-icon" src="/assets/icons/student.png">  Student
+          <img  class="sidebar-icon" src="assets/icons/student.png">  Student
           <i class="fa fa-chevron-right arrow" aria-hidden="true"></i>          
         </a>
       </li>
@@ -130,7 +130,7 @@
 
        <li class="sidebar-items" *ngIf="role=='admin'" style="padding-bottom: 55px;">
         <a [routerLink]="['/add-employee']" routerLinkActive="active">
-          <img  class="sidebar-icon" src="/assets/icons/employee.png">  Employee
+          <img  class="sidebar-icon" src="assets/icons/employee.png">  Employee
           <i class="fa fa-chevron-right arrow" aria-hidden="true"></i>          
         </a>
       </li>   

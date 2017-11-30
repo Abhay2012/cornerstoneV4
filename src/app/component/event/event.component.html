@@ -19,7 +19,7 @@
             
                 <img  *ngIf="selectedEvent.files[imgindex-1].fileOriginalName.substr(selectedEvent.files[imgindex-1].fileOriginalName.length - 4) != '.pdf'" style="float:left;" (click)="swipe(-1)" class="sideimage" [attr.src]="fileUrl + selectedEvent.files[imgindex-1].fileTimestamp">
 
-                <img  *ngIf="selectedEvent.files[imgindex-1].fileOriginalName.substr(selectedEvent.files[imgindex-1].fileOriginalName.length - 4) == '.pdf'" style="float:left;" (click)="swipe(-1)" class="sideimage" src="/assets/pdf1.jpg">
+                <img  *ngIf="selectedEvent.files[imgindex-1].fileOriginalName.substr(selectedEvent.files[imgindex-1].fileOriginalName.length - 4) == '.pdf'" style="float:left;" (click)="swipe(-1)" class="sideimage" src="assets/pdf1.jpg">
               
               </span>
 
@@ -29,7 +29,7 @@
                 <span *ngIf="selectedEvent.files && selectedEvent.files[imgindex]">
                <img *ngIf="selectedEvent.files[imgindex]?.fileOriginalName.substr(selectedEvent.files[imgindex].fileOriginalName.length - 4) != '.pdf'" class="image1" [attr.src]="fileUrl + selectedEvent.files[imgindex].fileTimestamp">
 
-               <img *ngIf="selectedEvent.files[imgindex]?.fileOriginalName.substr(selectedEvent.files[imgindex].fileOriginalName.length - 4) == '.pdf'" class="image1" src="/assets/pdf1.jpg">
+               <img *ngIf="selectedEvent.files[imgindex]?.fileOriginalName.substr(selectedEvent.files[imgindex].fileOriginalName.length - 4) == '.pdf'" class="image1" src="assets/pdf1.jpg">
 
                 </span>
                     <div class="edit-image-modal"><a [attr.href]="fileUrl + selectedEvent.files[0].fileTimestamp" [download]="custom"><i class="fa fa-download fa-lg"></i></a></div>
@@ -41,7 +41,7 @@
           
                 <img *ngIf="selectedEvent.files[imgindex+1].fileOriginalName.substr(selectedEvent.files[imgindex+1].fileOriginalName.length - 4) != '.pdf'" style="float:left;" (click)="swipe(1)" class="sideimage" [attr.src]="fileUrl + selectedEvent.files[imgindex+1].fileTimestamp">
 
-                <img *ngIf="selectedEvent.files[imgindex+1].fileOriginalName.substr(selectedEvent.files[imgindex+1].fileOriginalName.length - 4) == '.pdf'" style="float:left;" (click)="swipe(1)" class="sideimage" src="/assets/pdf1.jpg">
+                <img *ngIf="selectedEvent.files[imgindex+1].fileOriginalName.substr(selectedEvent.files[imgindex+1].fileOriginalName.length - 4) == '.pdf'" style="float:left;" (click)="swipe(1)" class="sideimage" src="assets/pdf1.jpg">
 
                 </span>
                 
@@ -50,7 +50,7 @@
             </div>
             <br>
             <span>
-              <img class="image1" *ngIf="!selectedEvent.files" src="/assets/preview.png" alt="No Preview Avalable">
+              <img class="image1" *ngIf="!selectedEvent.files" src="assets/preview.png" alt="No Preview Avalable">
             </span>
 
 
@@ -404,7 +404,7 @@
                 
                     <img  *ngIf="selectedEvent.files[imgindex-1].fileOriginalName.substr(selectedEvent.files[imgindex-1].fileOriginalName.length - 4) != '.pdf'" style="float:left;" (click)="swipe(-1)" class="sideimage" [attr.src]="fileUrl + selectedEvent.files[imgindex-1].fileTimestamp">
 
-                    <img  *ngIf="selectedEvent.files[imgindex-1].fileOriginalName.substr(selectedEvent.files[imgindex-1].fileOriginalName.length - 4) == '.pdf'" style="float:left;" (click)="swipe(-1)" class="sideimage" src="/assets/pdf1.jpg">
+                    <img  *ngIf="selectedEvent.files[imgindex-1].fileOriginalName.substr(selectedEvent.files[imgindex-1].fileOriginalName.length - 4) == '.pdf'" style="float:left;" (click)="swipe(-1)" class="sideimage" src="assets/pdf1.jpg">
                   
                   </span>
                     <span *ngIf="imgindex==0"  style="float:left;top:83px;width:161px;height:16px;"></span>
@@ -413,7 +413,7 @@
                     <span *ngIf="selectedEvent.files[imgindex]">
                    <img *ngIf="selectedEvent.files[imgindex].fileOriginalName.substr(selectedEvent.files[imgindex].fileOriginalName.length - 4) != '.pdf'" class="image1" [attr.src]="fileUrl + selectedEvent.files[imgindex].fileTimestamp">
 
-                   <img *ngIf="selectedEvent.files[imgindex].fileOriginalName.substr(selectedEvent.files[imgindex].fileOriginalName.length - 4) == '.pdf'" class="image1" src="/assets/pdf1.jpg">
+                   <img *ngIf="selectedEvent.files[imgindex].fileOriginalName.substr(selectedEvent.files[imgindex].fileOriginalName.length - 4) == '.pdf'" class="image1" src="assets/pdf1.jpg">
 
                     </span>
                         <div class="edit-image-modal"><a [attr.href]="fileUrl + selectedEvent.files[0].fileTimestamp" [download]="custom"><i class="fa fa-download fa-lg"></i></a></div>
@@ -425,7 +425,7 @@
           
                     <img *ngIf="selectedEvent.files[imgindex+1].fileOriginalName.substr(selectedEvent.files[imgindex+1].fileOriginalName.length - 4) != '.pdf'" style="float:left;" (click)="swipe(1)" class="sideimage" [attr.src]="fileUrl + selectedEvent.files[imgindex+1].fileTimestamp">
 
-                    <img *ngIf="selectedEvent.files[imgindex+1].fileOriginalName.substr(selectedEvent.files[imgindex+1].fileOriginalName.length - 4) == '.pdf'" style="float:left;" (click)="swipe(1)" class="sideimage" src="/assets/pdf1.jpg">
+                    <img *ngIf="selectedEvent.files[imgindex+1].fileOriginalName.substr(selectedEvent.files[imgindex+1].fileOriginalName.length - 4) == '.pdf'" style="float:left;" (click)="swipe(1)" class="sideimage" src="assets/pdf1.jpg">
 
                     </span>
 
@@ -454,7 +454,7 @@
                 
                     <img  *ngIf="selectedEvent.files[imgindex-1].fileOriginalName.substr(selectedEvent.files[imgindex-1].fileOriginalName.length - 4) != '.pdf'" style="float:left;" (click)="swipe(-1)" class="sideimage" [attr.src]="fileUrl + selectedEvent.files[imgindex-1].fileTimestamp">
 
-                    <img  *ngIf="selectedEvent.files[imgindex-1].fileOriginalName.substr(selectedEvent.files[imgindex-1].fileOriginalName.length - 4) == '.pdf'" style="float:left;" (click)="swipe(-1)" class="sideimage" src="/assets/pdf1.jpg">
+                    <img  *ngIf="selectedEvent.files[imgindex-1].fileOriginalName.substr(selectedEvent.files[imgindex-1].fileOriginalName.length - 4) == '.pdf'" style="float:left;" (click)="swipe(-1)" class="sideimage" src="assets/pdf1.jpg">
                   
                   </span>
 
@@ -464,7 +464,7 @@
                     <span>
                    <img *ngIf="selectedEvent.files[imgindex].fileOriginalName.substr(selectedEvent.files[imgindex].fileOriginalName.length - 4) != '.pdf'" class="image1" [attr.src]="fileUrl + selectedEvent.files[imgindex].fileTimestamp">
 
-                   <img *ngIf="selectedEvent.files[imgindex].fileOriginalName.substr(selectedEvent.files[imgindex].fileOriginalName.length - 4) == '.pdf'" class="image1" src="/assets/pdf1.jpg">
+                   <img *ngIf="selectedEvent.files[imgindex].fileOriginalName.substr(selectedEvent.files[imgindex].fileOriginalName.length - 4) == '.pdf'" class="image1" src="assets/pdf1.jpg">
 
                     </span>
                         <div class="edit-image-modal"><a [attr.href]="fileUrl + selectedEvent.files[0].fileTimestamp" [download]="custom"><i class="fa fa-download fa-lg"></i></a></div>
@@ -476,7 +476,7 @@
               
                     <img *ngIf="selectedEvent.files[imgindex+1].fileOriginalName.substr(selectedEvent.files[imgindex+1].fileOriginalName.length - 4) != '.pdf'" style="float:left;" (click)="swipe(1)" class="sideimage" [attr.src]="fileUrl + selectedEvent.files[imgindex+1].fileTimestamp">
 
-                    <img *ngIf="selectedEvent.files[imgindex+1].fileOriginalName.substr(selectedEvent.files[imgindex+1].fileOriginalName.length - 4) == '.pdf'" style="float:left;" (click)="swipe(1)" class="sideimage" src="/assets/pdf1.jpg">
+                    <img *ngIf="selectedEvent.files[imgindex+1].fileOriginalName.substr(selectedEvent.files[imgindex+1].fileOriginalName.length - 4) == '.pdf'" style="float:left;" (click)="swipe(1)" class="sideimage" src="assets/pdf1.jpg">
 
                     </span>
                 </div> -->

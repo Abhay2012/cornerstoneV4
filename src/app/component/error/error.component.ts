@@ -16,4 +16,8 @@ export class ErrorComponent{
   ){
   	ls.setLoader(false);
   }
+
+  refresh(){
+    localStorage.clear();
+  }
 }

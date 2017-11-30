@@ -29,23 +29,23 @@ export class MainComponent implements OnInit, AfterViewInit {
   public  isLoggedIn: boolean = false;
   public  selectedIndex: any = 0;
   public  pages = [
-    { title: 'Dashboard' , icon: '/assets/icons/dashboard.png', url: '/dashboard' },
-    { title: 'Complaints', icon: '/assets/icons/complaint.png', url: '/complaint' },
+    { title: 'Dashboard' , icon: 'assets/icons/dashboard.png', url: '/dashboard' },
+    { title: 'Complaints', icon: 'assets/icons/complaint.png', url: '/complaint' },
     // { title: 'Suggestion', component: SuggestionComponent, icon: 'icons/suggestion.png', url: '/suggestion/for-me'} ,
-    { title: 'Appreciation', icon: '/assets/icons/appreciation.png', url: '/appreciation' },
-    { title: 'Messaging', icon: '/assets/icons/message.png', url: '/conversation'},
-    { title: 'Events', icon: '/assets/icons/event.png', url: '/event'},
-    { title: 'Poll', icon: '/assets/icons/poll.png', url: '/poll' },
-    // { title: 'Survey', component: SurveyComponent, icon: '/assets/icons/survey.png', url: '/survey' },
-    // { title: 'Food Menu', component: FoodmenuComponent, icon: '/assets/icons/food.png', url: '/foodmenu' },    
-    { title: 'Circular', icon: '/assets/icons/circular.png', url: '/circular' },
-    { title: 'Homework', icon: '/assets/icons/homework.png', url: '/homework' },
-    { title: 'Student Rating', icon: '/assets/icons/rating.png', url: '/student-profile' },
-    // { title: 'Time Table', icon : '//assets/icons/calendar.png', url:'/time-table' }
+    { title: 'Appreciation', icon: 'assets/icons/appreciation.png', url: '/appreciation' },
+    { title: 'Messaging', icon: 'assets/icons/message.png', url: '/conversation'},
+    { title: 'Events', icon: 'assets/icons/event.png', url: '/event'},
+    { title: 'Poll', icon: 'assets/icons/poll.png', url: '/poll' },
+    // { title: 'Survey', component: SurveyComponent, icon: 'assets/icons/survey.png', url: '/survey' },
+    // { title: 'Food Menu', component: FoodmenuComponent, icon: 'assets/icons/food.png', url: '/foodmenu' },    
+    { title: 'Circular', icon: 'assets/icons/circular.png', url: '/circular' },
+    { title: 'Homework', icon: 'assets/icons/homework.png', url: '/homework' },
+    { title: 'Student Rating', icon: 'assets/icons/rating.png', url: '/student-profile' },
+    // { title: 'Time Table', icon : '/assets/icons/calendar.png', url:'/time-table' }
     //  { title: 'Add Employee', component: AddEmployeeComponent, icon: '', url:'/add-employee'},
     //  {title: 'Add Student', component: AddStudentComponent, icon: '', url: '/add-student'},
     
-    // { title: 'Profile', component: AccountComponent, icon: '/assets/icons/profile.png', url: '/account'},      
+    // { title: 'Profile', component: AccountComponent, icon: 'assets/icons/profile.png', url: '/account'},      
     // { title: 'Message', component: MessageComponent, icon: 'icons/message.png', url: '/messaging'},
     
   ];

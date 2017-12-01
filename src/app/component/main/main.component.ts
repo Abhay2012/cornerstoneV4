@@ -29,8 +29,8 @@ export class MainComponent implements OnInit, AfterViewInit {
   public  isLoggedIn: boolean = false;
   public  selectedIndex: any = 0;
   public  pages = [
-    { title: 'Dashboard' , icon: 'assets/icons/dashboard.png', url: '/dashboard' },
-    { title: 'Complaints', icon: 'assets/icons/complaint.png', url: '/complaint' },
+    { title: 'Dashboard' , icon: 'dashboard', url: '/dashboard' },
+    { title: 'Complaints', icon: 'thumb_down', url: '/complaint' },
     // { title: 'Suggestion', component: SuggestionComponent, icon: 'icons/suggestion.png', url: '/suggestion/for-me'} ,
     { title: 'Appreciation', icon: 'assets/icons/appreciation.png', url: '/appreciation' },
     { title: 'Messaging', icon: 'assets/icons/message.png', url: '/conversation'},

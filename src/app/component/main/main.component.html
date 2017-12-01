@@ -84,7 +84,7 @@
       </li>
       <li *ngFor="let page of pages; let i=index" class="sidebar-items">
         <a [routerLink]="[page.url]" routerLinkActive="active" (click)="getSelectedLink(i)">
-          <img class="sidebar-icon" src="{{page.icon}}"> <span class="page-title">{{page.title}}</span>
+          <i class="material-icons"> {{page.icon}}</i> <span class="page-title">{{page.title}}</span>
           <i class="fa fa-chevron-right arrow" aria-hidden="true"></i>
         </a>
       </li>

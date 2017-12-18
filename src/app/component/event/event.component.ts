@@ -152,8 +152,6 @@ export class EventComponent implements OnInit, AfterViewInit, OnDestroy {
 
       if (event.files) {
         console.log("work");
-        $(element).find('span:first').prepend('<img style="display:block;width:100px;height:75px;" src="https://www.googleapis.com/download/storage/v1/b/cornerstone-version1/o/' + event.files[0].fileTimestamp + '" />');
-        $(element).find('span:first').css({ 'width': '100px', 'height': '75px', 'margin': 'auto' });
       }
     },
 
